@@ -10,3 +10,23 @@ public class Application {
         SpringApplication.run( Application.class  ); // 내장서버(톰캣) 스프링 시작
     }
 }
+/*
+        spring web 계층
+                1. web 레이어	[ controller, view ]  @Controller / 주요 응답/요청
+                2. service 레이어	[ service ] 	@service
+            3. Repository 레이어[ repository ]	@Repository  = 생략 가능
+                4. Dtos				클래스
+                5. domain  , model [ entitiy ] 		@Entitiy
+
+
+        MVC2 디자인 패턴 (Spring / jpa 사용시 )
+                VIEW -----Dto/json----- CONTROLLER -----Dto/json------ SERVICE -------entitiy----- Repository ------Jpa------ DB
+                html		     view<-제어->service	         로직(처리기능)
+                css					         트랙잭션( SQL처리)
+                js
+
+                MVC2 디자인 패턴 ( jsp )
+                VIEW -----Dto/json----- CONTROLLER(servlet) ------ Dao ------ DB
+
+
+*/
