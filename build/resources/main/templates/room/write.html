@@ -7,6 +7,21 @@
 <body>
 
         <h3> room 등록 </h3>
+        <form>
+            이름 : <input type="text" id="roomname">
+            지역 :
+            <input type="text" id="sample5_address" placeholder="주소">
+            <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+            <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+
+            <button type="button" onclick="wirte()"> 등록 </button>
+        </form>
+
+        <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b7c0acb1395b016fc6b2661dad73840f&libraries=services"></script>
+        <script src="/js/room/write.js"></script>
+
 
 </body>
 </html>
