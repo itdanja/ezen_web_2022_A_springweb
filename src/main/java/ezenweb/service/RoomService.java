@@ -3,8 +3,12 @@ package ezenweb.service;
 import ezenweb.domain.RoomEntity;
 import ezenweb.domain.RoomRepository;
 import ezenweb.dto.RoomDto;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RoomService {
@@ -13,16 +17,35 @@ public class RoomService {
     private RoomRepository roomRepository;
 
     // 1. 룸 저장
-    public boolean room_save(RoomDto roomDto){
+    public boolean room_save(RoomDto roomDto) {
         // dto -> entitiy
         RoomEntity roomEntity = RoomEntity.builder()
-                .roomname( roomDto.getRoomname() )
-                .x( roomDto.getX())
-                .y( roomDto.getY() )
+                .roomname(roomDto.getRoomname())
+                .x(roomDto.getX())
+                .y(roomDto.getY())
                 .build();
         // 저장
-        roomRepository.save( roomEntity );
+        roomRepository.save(roomEntity);
         return true;
     }
 
+    // 2. 룸 호출
+    public JSONArray room_list() {
+        JSONArray jsonArray = new JSONArray();
+        // 1. 모든 엔티티 호출
+        List<RoomEntity> roomEntityList = roomRepository.findAll();
+        // 2. 모든 엔티티 -> json 변환
+        for (RoomEntity roomEntity : roomEntityList) {
+
+            JSONObject object = new JSONObject();
+
+            object.put("rname", roomEntity.getRoomname());
+            object.put("x", roomEntity.getX());
+            object.put("y", roomEntity.getY());
+
+            jsonArray.put(object);
+        }
+        // 3. 반환
+        return jsonArray;
+    }
 }
