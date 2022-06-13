@@ -5,13 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-
         <p> @ResponseBody </p>
         <p> @RestController </p>
-
         <p th:text="${data}"></p>
         <p th:text="${data.name}"></p>
         <p th:text="${data.amount}"></p>
+
+        <a href="/room/write"> 등록 </a>
+        <a th:href="@{/room/write}"> 등록 </a>
+
 
 </body>
 </html>

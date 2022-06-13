@@ -4,9 +4,17 @@ import ezenweb.domain.MemberEntity;
 import ezenweb.domain.MemberRepository;
 import ezenweb.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 public class MemberService {
@@ -17,8 +25,20 @@ public class MemberService {
         return false;
     }
 
-    @Autowired
+    @Autowired // 자동 빈(메모리) 생성      // @Autowired vs new
     private MemberRepository memberRepository;
+
+    // 다른 클래스의 메소드나 필드 호출 방법!!!
+        // * 메모리 할당 [ 객체 만들기 ]
+        // 1. static : java 실행시 우선 할당 -> java 종료시 메모리 초기화
+        // 2. 객체생성
+            // 1. 클래스명 객체명 = new 클래스명()
+
+            // 2. 객체명.set필드명 = 데이터
+
+            // 3.   @Autowired
+            //      클래스명 객체명;
+
 
     // 2. 회원가입처리 메소드
     public boolean signup(  MemberDto memberDto){

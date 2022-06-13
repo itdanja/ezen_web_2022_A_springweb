@@ -15,8 +15,6 @@ public class MemberController {
         return "login";
     }
 
-
-
     @Autowired
     MemberService memberService;  // member 서비스 객체 선언
 
