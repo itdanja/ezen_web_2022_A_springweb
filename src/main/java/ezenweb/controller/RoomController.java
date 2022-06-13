@@ -41,10 +41,8 @@ public class RoomController {
 
     @GetMapping("/roomlist")
     public void roomlist(HttpServletResponse response){
-        JSONObject object = new JSONObject();
-        JSONArray jsonArray = roomService.room_list();
 
-        object.put("positions" , jsonArray );
+        JSONObject object = roomService.room_list();
 
         try {
             response.setCharacterEncoding("UTF-8");

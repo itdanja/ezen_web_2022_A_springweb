@@ -30,10 +30,10 @@ public class RoomService {
     }
 
     // 2. 룸 호출
-    public JSONArray room_list() {
+    public JSONObject room_list() {
         JSONArray jsonArray = new JSONArray();
         // 1. 모든 엔티티 호출
-        List<RoomEntity> roomEntityList = roomRepository.findAll(); // 엔티티에 생성자 없으면 발생
+        List<RoomEntity> roomEntityList = roomRepository.findAll(); // 엔티티에 생성자 없으면 오류발생
         // 2. 모든 엔티티 -> json 변환
         for (RoomEntity roomEntity : roomEntityList) {
 
@@ -45,7 +45,11 @@ public class RoomService {
 
             jsonArray.put(object);
         }
+
+        JSONObject object = new JSONObject();
+        object.put("positions" , jsonArray );
+
         // 3. 반환
-        return jsonArray;
+        return object;
     }
 }
