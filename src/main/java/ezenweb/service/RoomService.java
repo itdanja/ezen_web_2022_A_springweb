@@ -33,15 +33,15 @@ public class RoomService {
     public JSONArray room_list() {
         JSONArray jsonArray = new JSONArray();
         // 1. 모든 엔티티 호출
-        List<RoomEntity> roomEntityList = roomRepository.findAll();
+        List<RoomEntity> roomEntityList = roomRepository.findAll(); // 엔티티에 생성자 없으면 발생
         // 2. 모든 엔티티 -> json 변환
         for (RoomEntity roomEntity : roomEntityList) {
 
             JSONObject object = new JSONObject();
 
             object.put("rname", roomEntity.getRoomname());
-            object.put("x", roomEntity.getX());
-            object.put("y", roomEntity.getY());
+            object.put("lat", roomEntity.getX());
+            object.put("lng", roomEntity.getY());
 
             jsonArray.put(object);
         }

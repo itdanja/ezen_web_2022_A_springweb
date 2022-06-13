@@ -45,13 +45,15 @@ public class RoomController {
         JSONArray jsonArray = roomService.room_list();
 
         object.put("positions" , jsonArray );
+
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             response.getWriter().print(object);
         }catch( Exception e ){
-
+            System.out.println(  e   );
         }
+        System.out.println(  object    );
     }
 
 

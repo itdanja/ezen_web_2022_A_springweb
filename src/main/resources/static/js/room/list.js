@@ -21,7 +21,7 @@
         // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
         var markers = $(data.positions).map(function(i, position) {
             return new kakao.maps.Marker({
-                position : new kakao.maps.LatLng(position.lat, position.lng)
+                position : new kakao.maps.LatLng( position.lat, position.lng)
             });
         });
 
