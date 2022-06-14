@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Getter @Setter@ToString
 @NoArgsConstructor @AllArgsConstructor
 @Builder
+@Table( name = "room")  // 테이블 이름 정의
 public class RoomEntity {
 
     @Id

@@ -1,6 +1,6 @@
 // 마커 클러스터 지도 사용
 
-    // 0. 현재 내 위치 위도 경도 구하기
+    // 0. 현재 내 위치의 위도 경도 구하기
     navigator.geolocation.getCurrentPosition(function(position) {
             var lat = position.coords.latitude, // 위도
                  lng = position.coords.longitude; // 경도
@@ -38,6 +38,18 @@
 //        clusterer.addMarkers(markers);
 //    });
 
+    // 6. 마커 이미지 변경
+                // 마커 이미지의 주소
+                var markerImageUrl = 'http://localhost:8081/img/icon_home.png',
+                    markerImageSize = new kakao.maps.Size(30, 30), // 마커 이미지의 크기
+                    markerImageOptions = {
+                        offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
+                    };
+
+                // 마커 이미지를 생성한다
+                var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+
+
     // 4.
     // 지도 시점 변화 완료 이벤트를 등록한다 [  idle(드래그 완료시 이벤트발생 ) vs bounds_changed(드래그 중에 이벤트발생 )  ]
     kakao.maps.event.addListener(map, 'idle', function () {
@@ -50,16 +62,31 @@
                 contentType : 'application/json' ,
                 success : function( data ){
                         console.log(data); // 통신 확인
-                        // 마커 생성
+                        // 마커목록 생성
                           var markers = $(data.positions).map(function(i, position) {
-                            return new kakao.maps.Marker({
-                                position : new kakao.maps.LatLng( position.lat, position.lng)
+
+                            // 마커 하나 생성  start
+                            var marker =  new kakao.maps.Marker({
+                                position : new kakao.maps.LatLng( position.lat, position.lng) ,
+                                image : markerImage // 마커의 이미지
                             });
+
+                                 // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
+                                    kakao.maps.event.addListener(marker, 'click', function() {
+                                        alert(" 룸 이름 : " + position.rname );
+                                    });
+
+                               return marker;
+                             //  마커 하나 생성 end
+
                         });
-                        clusterer.addMarkers(markers);  // 클러스터에 마커 추가
+
+                         // 클러스터에 마커 추가
+                        clusterer.addMarkers(markers);
                 } // sueess end
             }); // ajax end
     }); // 이벤트 end
+
 
     // 5.
     // 마커 클러스터러에 클릭이벤트를 등록합니다
