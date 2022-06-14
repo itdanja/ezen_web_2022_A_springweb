@@ -9,13 +9,16 @@
 <div th:replace="header.html :: header"></div>
 
         <h3> room 등록 </h3>
-        <form >
-            이름 : <input type="text" id="roomname">
+        <form id="saveform">
+            <!-- Dto로 자동주입 할경우에는 input name 과 dto 필드명 동일하게 -->
+            이름 : <input type="text" name="rname">
+            사진 : <input type="file" multiple="multiple" name="rimg">
+            x : <input type="input" name="x" id="x">
+            y : <input type="input" name="y" id="y">
             지역 :
             <input type="text" id="sample5_address" placeholder="주소">
             <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
             <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-
 
             <button type="button" onclick="save()"> 등록 </button>
         </form>

@@ -1,18 +1,21 @@
 
-// 전역변수
-let x = null;
-let y = null;
+
 // 1.저장 메소드
 function save(){
-    let roomname = $("#roomname").val();
+    // 1. form 가져오기
+    let form = $("#saveform")[0]; // [0] 폼내 입력 데이터
+    let formdata = new FormData( form);
     $.ajax({
         url: "/room/write",
         method: "POST",      // PutMapping 으로 매핑
-        data : { "roomname" : roomname , "x" :x , "y":y   } ,
+        data : formdata ,
+        contentType: false,     // 첨부파일 전송시 사용되는 속성
+        processData: false ,     // 첨부파일 전송시 사용되는 속성
         success: function( re ){
             alert("java와 통신성공");
         }
     });
+
 }
 
 
@@ -52,8 +55,8 @@ function save(){
                         // 해당 주소에 대한 좌표를 받아서
                         var coords = new daum.maps.LatLng(result.y, result.x);
                                 // 해당 좌표를 전역변수로 이동
-                                x = result.x;
-                                y = result.y;
+                                $("#x").val( result.x ) ;
+                               $("#y").val(  result.y ) ;
 
                         // 지도를 보여준다.
                         mapContainer.style.display = "block";

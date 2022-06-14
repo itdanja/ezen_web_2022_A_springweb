@@ -17,5 +17,6 @@ public class RoomEntity {
     private String roomname;
     private String x;
     private String y;
+    private String rimg;
 
 }

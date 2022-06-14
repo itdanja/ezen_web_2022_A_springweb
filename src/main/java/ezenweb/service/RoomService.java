@@ -7,7 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +25,35 @@ public class RoomService {
     public boolean room_save(RoomDto roomDto) {
         // dto -> entitiy
         RoomEntity roomEntity = RoomEntity.builder()
-                .roomname(roomDto.getRoomname())
+                .roomname(roomDto.getRname())
                 .x(roomDto.getX())
                 .y(roomDto.getY())
                 .build();
+
+        // 첨부파일
+        if( roomDto.getRimg().size() != 0 ){    // 첨부파일이 1개 이상이면
+
+            //1. 반복문를 이용한 모든 첨부파일 호출
+            for(MultipartFile file : roomDto.getRimg() ){
+                // 2. 경로 설정
+                //        \:제어문자
+                String dir  = "C:\\Users\\505-t\\Desktop\\spring\\springweb\\src\\main\\resources\\static\\upload\\";
+                String filepath = dir+file.getOriginalFilename();
+                // .getOriginalFilename() :  실제 첨부파일 이름
+
+                try {
+                    // 3. **** 첨부파일 업로드 처리
+                    file.transferTo( new File(filepath) );
+
+                    // 4. 엔티티에 파일명 저장
+                    roomEntity.setRimg( file.getOriginalFilename() );
+
+                    // 첨부파일.transferTo( 새로운 경로->파일 ) ;
+                }catch( Exception e ){ System.out.println("파일저장실패 : "+ e);}
+            }
+
+        }
+
         // 저장
         roomRepository.save(roomEntity);
         return true;

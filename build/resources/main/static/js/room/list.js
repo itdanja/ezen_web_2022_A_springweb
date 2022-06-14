@@ -41,7 +41,7 @@
     // 6. 마커 이미지 변경
                 // 마커 이미지의 주소
                 var markerImageUrl = 'http://localhost:8081/img/icon_home.png',
-                    markerImageSize = new kakao.maps.Size(30, 30), // 마커 이미지의 크기
+                    markerImageSize = new kakao.maps.Size(40, 40), // 마커 이미지의 크기
                     markerImageOptions = {
                         offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
                     };
@@ -49,9 +49,8 @@
                 // 마커 이미지를 생성한다
                 var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
 
-
-    // 4.
-    // 지도 시점 변화 완료 이벤트를 등록한다 [  idle(드래그 완료시 이벤트발생 ) vs bounds_changed(드래그 중에 이벤트발생 )  ]
+    // 지도 시점 변화 완료 이벤트를
+    // 4. 등록한다 [  idle(드래그 완료시 이벤트발생 ) vs bounds_changed(드래그 중에 이벤트발생 )  ]
     kakao.maps.event.addListener(map, 'idle', function () {
             // 클러스터 초기화
             clusterer.clear();
@@ -77,9 +76,10 @@
                                     });
 
                                return marker;
+
                              //  마커 하나 생성 end
 
-                        });
+                        }); // markers end
 
                          // 클러스터에 마커 추가
                         clusterer.addMarkers(markers);
