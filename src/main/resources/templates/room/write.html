@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<div th:replace="header.html :: header"></div>
+
         <h3> room 등록 </h3>
         <form >
             이름 : <input type="text" id="roomname">
@@ -17,9 +19,7 @@
             <button type="button" onclick="save()"> 등록 </button>
         </form>
 
-        <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b7c0acb1395b016fc6b2661dad73840f&libraries=services"></script>
+
         <script src="/js/room/write.js"></script>
 
 </body>

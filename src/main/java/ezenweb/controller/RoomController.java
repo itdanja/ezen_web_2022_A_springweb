@@ -59,9 +59,12 @@ public class RoomController {
     }
      */
     // Map 사용시
-    @GetMapping("/roomlist")
+    @PostMapping("/roomlist")
     @ResponseBody       // 객체 반환
-    public Map< String , List<Map<String , String >>> roomlist(   ){
+    public Map< String , List<Map<String , String >>>
+                roomlist( @RequestBody Map<String,String> Location   ){
+
+        System.out.println( Location  );
 
         return roomService.room_list();
 
