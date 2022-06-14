@@ -3,7 +3,7 @@
 let x = null;
 let y = null;
 // 1.저장 메소드
-function wirte(){
+function save(){
     let roomname = $("#roomname").val();
     $.ajax({
         url: "/room/write",

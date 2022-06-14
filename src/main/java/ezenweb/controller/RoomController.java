@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 @Controller         // 해당 클래스가 템플릿영역으로 사용
 @RequestMapping("/room") // 해당 클래스의 요청매핑( room )
@@ -39,8 +41,10 @@ public class RoomController {
         return "room/list";
     }
 
+    /*
+    // JSON 사용시
     @GetMapping("/roomlist")
-    public void roomlist(HttpServletResponse response){
+    public void roomlist( HttpServletResponse response ){
 
         JSONObject object = roomService.room_list();
 
@@ -53,8 +57,15 @@ public class RoomController {
         }
         System.out.println(  object    );
     }
+     */
+    // Map 사용시
+    @GetMapping("/roomlist")
+    @ResponseBody       // 객체 반환
+    public Map< String , List<Map<String , String >>> roomlist(   ){
 
+        return roomService.room_list();
 
+    }
 
 }
 
@@ -63,11 +74,11 @@ public class RoomController {
     @GetMapping          : FIND , GET   [ @RequestMapping( "경로" , method=RequestMethod.GET )  ]
     @PostMapping         :  SAVE            [ @RequestMapping( "경로" , method=RequestMethod.POST ) ]
     @PutMapping          : UPDATE         [ @RequestMapping( "경로" , method=RequestMethod.PUT ) ]
-    @ DeleteMapping       : DELETE      [ @RequestMapping( "경로" , method=RequestMethod.DELETE ) ]
+    @DeleteMapping       : DELETE      [ @RequestMapping( "경로" , method=RequestMethod.DELETE ) ]
  */
 
 /*
-    view -----> controller  변수 요청 방식
+    view(JS) -----> controller  변수 요청 방식
         // 1.  HttpServletRequest request 이용한 방식
             String roomname = request.getParameter("roomname");
             String x = request.getParameter("x");
@@ -81,6 +92,17 @@ public class RoomController {
         // 3. Mapping 사용시  DTO 로 자동 주입 된다
             // 조건1. : Mapping
             // 조건2 : 요청변수명 과 DTO 필드명 동일하다
+*/
+/*
+    Controller -> view( JS )
+        // 1. 해당 클래스가 @RestController  이면 메소드 return 객체
+                vs  @Controller 이면 메소드 return 값이 템블릿(html)
+
+       // 2. HttpServletResponse response
+                    response.getWriter().print()
+
+      // 3.  @ResponseBody 메소드  return 객체
+
  */
 
 

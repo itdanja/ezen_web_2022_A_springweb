@@ -11,10 +11,10 @@ public class Application {
     }
 }
 /*
-        spring web 계층
+        spring web 5 계층
                 1. web 레이어	[ controller, view ]  @Controller / 주요 응답/요청
                 2. service 레이어	[ service ] 	@service
-            3. Repository 레이어[ repository ]	@Repository  = 생략 가능
+               3. Repository 레이어[ repository ]	@Repository  = 생략 가능
                 4. Dtos				클래스
                 5. domain  , model [ entitiy ] 		@Entitiy
 
