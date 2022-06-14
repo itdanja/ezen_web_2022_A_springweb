@@ -63,6 +63,10 @@
                 contentType : 'application/json' ,
                 success : function( data ){
                         console.log(data); // 통신 확인
+
+                        // *** 만약에 data 없으면 메시지를 사이드바에 띄우기
+                        if( data.positions.length == 0  ){ html +="<div>검색된 방이 없습니다.</div>"  }
+
                         // 마커목록 생성
                           var markers = $(data.positions).map(function(i, position) {
 
