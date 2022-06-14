@@ -64,9 +64,7 @@ public class RoomController {
     public Map< String , List<Map<String , String >>>
                 roomlist( @RequestBody Map<String,String> Location   ){
 
-        System.out.println( Location  );
-
-        return roomService.room_list();
+        return roomService.room_list( Location );
 
     }
 
@@ -87,10 +85,13 @@ public class RoomController {
             String x = request.getParameter("x");
             String y = request.getParameter("y");
 
-        // 2.  @RequestParam("요청변수) 자료형 변수명
+        // 2-1 @RequestParam("요청변수) 자료형 변수명
             @RequestParam("roomname") String roomname ,
             @RequestParam("x") String x ,
             @RequestParam("y") String y
+
+       // 2-2  JS --- JSON --> CONTROLLER
+            @RequestBody
 
         // 3. Mapping 사용시  DTO 로 자동 주입 된다
             // 조건1. : Mapping

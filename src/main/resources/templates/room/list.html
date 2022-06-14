@@ -6,9 +6,19 @@
 </head>
 <body>
 
-<div th:replace="header.html :: header"></div>
+    <div th:replace="header.html :: header"></div>
 
-    <div id="map" style="width:100%;height:350px;"></div>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="map" style="width:100%;height:1000px;"></div>   <!-- 지도 -->
+        </div>
+        <div class="col-md-2" id="sidebar">
+            <!--사이드바 표시 구역 -->
+            ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+        </div>
+    </div>
+
+
 
     <script src="/js/room/list.js"></script>
 

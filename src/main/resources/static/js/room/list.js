@@ -1,16 +1,21 @@
 // 마커 클러스터 지도 사용
 
+    // 0. 현재 내 위치의 위도 경도 구하기
+    navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude, // 위도
+                 lng = position.coords.longitude; // 경도
+
     // 1. Map 변수
     var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-        center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표
-        level : 14 // 지도의 확대 레벨
+        center : new kakao.maps.LatLng( lat , lng ), // 지도의 중심좌표 // 현재 접속된 디바이스 좌표
+        level : 5 // 지도의 확대 레벨
     });
 
-    // 2. 클러스터 변수
+    // 2. 클러스터[ 마커 집합 ]  변수
     var clusterer = new kakao.maps.MarkerClusterer({
         map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
         averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-        minLevel: 10, // 클러스터 할 최소 지도 레벨
+        minLevel: 6, // 클러스터 할 최소 지도 레벨
         disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다
     });
 
@@ -34,9 +39,10 @@
 //    });
 
     // 4.
-    // 지도 시점 변화 완료 이벤트를 등록한다 [  idle vs bounds_changed ]
+    // 지도 시점 변화 완료 이벤트를 등록한다 [  idle(드래그 완료시 이벤트발생 ) vs bounds_changed(드래그 중에 이벤트발생 )  ]
     kakao.maps.event.addListener(map, 'idle', function () {
-
+            // 클러스터 초기화
+            clusterer.clear();
             $.ajax({
                 url: '/room/roomlist' ,
                 data : JSON.stringify(  map.getBounds() ) , // 현재 보고 있는 지도 범위 [ 동서남북 좌표 ]
@@ -44,15 +50,13 @@
                 contentType : 'application/json' ,
                 success : function( data ){
                         console.log(data); // 통신 확인
-
+                        // 마커 생성
                           var markers = $(data.positions).map(function(i, position) {
                             return new kakao.maps.Marker({
                                 position : new kakao.maps.LatLng( position.lat, position.lng)
                             });
                         });
-
-                        clusterer.addMarkers(markers);
-
+                        clusterer.addMarkers(markers);  // 클러스터에 마커 추가
                 } // sueess end
             }); // ajax end
     }); // 이벤트 end
@@ -67,3 +71,5 @@
         // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
+
+}); // 현재 내 위치의 위도경도 구하기 end
