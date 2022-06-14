@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -30,23 +27,32 @@ public class RoomService {
                 .y(roomDto.getY())
                 .build();
 
+
+        String uuidfile = null;
         // 첨부파일
         if( roomDto.getRimg().size() != 0 ){    // 첨부파일이 1개 이상이면
 
             //1. 반복문를 이용한 모든 첨부파일 호출
             for(MultipartFile file : roomDto.getRimg() ){
+
+                // 파일명이 동일하면 식별 문제 발생 ~~~~~~~~~~~
+                    // 1. UUID 난수 생성
+                UUID uuid = UUID.randomUUID();
+                    // 2. UUID+ 파일명  [  // .getOriginalFilename() :  실제 첨부파일 이름 ]
+                uuidfile = uuid.toString() +"_"+ file.getOriginalFilename().replaceAll("_","-");
+                    // UUID 와 파일명 구분 _ 사용 [ 만약에 파일명에 _존재하면 문제발생 -> 파일명 _  ----->   -  변경  ]
+
                 // 2. 경로 설정
                 //        \:제어문자
                 String dir  = "C:\\Users\\505-t\\Desktop\\spring\\springweb\\src\\main\\resources\\static\\upload\\";
-                String filepath = dir+file.getOriginalFilename();
-                // .getOriginalFilename() :  실제 첨부파일 이름
+                String filepath = dir+uuidfile;
 
                 try {
                     // 3. **** 첨부파일 업로드 처리
                     file.transferTo( new File(filepath) );
 
                     // 4. 엔티티에 파일명 저장
-                    roomEntity.setRimg( file.getOriginalFilename() );
+                    roomEntity.setRimg( uuidfile );
 
                     // 첨부파일.transferTo( 새로운 경로->파일 ) ;
                 }catch( Exception e ){ System.out.println("파일저장실패 : "+ e);}
@@ -126,6 +132,8 @@ public class RoomService {
                 map.put("rname", entity.getRoomname());
                 map.put("lng", entity.getX());
                 map.put("lat", entity.getY());
+                map.put("rno", entity.getRno()+"" );
+                map.put("rimg", entity.getRimg() );
                 // 4. 리스트 넣기
                 Maplist.add(map);
             }

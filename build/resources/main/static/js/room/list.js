@@ -54,6 +54,8 @@
     kakao.maps.event.addListener(map, 'idle', function () {
             // 클러스터 초기화
             clusterer.clear();
+            // 사이드바에 넣을 html 변수 선언
+            let html = "";
             $.ajax({
                 url: '/room/roomlist' ,
                 data : JSON.stringify(  map.getBounds() ) , // 현재 보고 있는 지도 범위 [ 동서남북 좌표 ]
@@ -71,9 +73,21 @@
                             });
 
                                  // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
-                                    kakao.maps.event.addListener(marker, 'click', function() {
-                                        alert(" 룸 이름 : " + position.rname );
-                                    });
+                                kakao.maps.event.addListener(marker, 'click', function() {
+                                    alert(" 룸 이름 : " + position.rname );
+                                });
+
+                                // 사이드바에 추가할 html 구성
+                                html +=
+                                            '<div class="row">'+
+                                                '<div class="col-md-6">'+
+                                                    '<img src="/upload/'+position.rimg+'" width="100%">'+
+                                                '</div>'+
+                                                '<div class="col-md-6">'+
+                                                    '<div> 집번호 : <span> '+position.rno+' </span>  </div>'+
+                                                    '<div> 집이름 : <span> '+position.rname+' </span>  </div>'+
+                                                '</div>'+
+                                            '</div>';
 
                                return marker;
 
@@ -83,6 +97,9 @@
 
                          // 클러스터에 마커 추가
                         clusterer.addMarkers(markers);
+                        //  변수 html를 해당 id 값에 추가
+                        $("#sidebar").html( html );
+
                 } // sueess end
             }); // ajax end
     }); // 이벤트 end
