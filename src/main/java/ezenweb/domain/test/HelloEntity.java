@@ -1,4 +1,4 @@
-package ezenweb.domain;
+package ezenweb.domain.test;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

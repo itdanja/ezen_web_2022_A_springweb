@@ -1,10 +1,8 @@
 package ezenweb.service;
 
-import ezenweb.domain.RoomEntity;
-import ezenweb.domain.RoomRepository;
+import ezenweb.domain.room.RoomEntity;
+import ezenweb.domain.room.RoomRepository;
 import ezenweb.dto.RoomDto;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,12 +18,11 @@ public class RoomService {
 
     // 1. 룸 저장
     public boolean room_save(RoomDto roomDto) {
+
         // dto -> entitiy
-        RoomEntity roomEntity = RoomEntity.builder()
-                .roomname(roomDto.getRname())
-                .x(roomDto.getX())
-                .y(roomDto.getY())
-                .build();
+       RoomEntity roomEntity = roomDto.toentity();
+//        ModelMapper modelMapper = new ModelMapper();
+//        modelMapper.map( roomDto , RoomEntity.class);
 
 
         String uuidfile = null;
@@ -51,8 +48,6 @@ public class RoomService {
                     // 3. **** 첨부파일 업로드 처리
                     file.transferTo( new File(filepath) );
 
-                    // 4. 엔티티에 파일명 저장
-                    roomEntity.setRimg( uuidfile );
 
                     // 첨부파일.transferTo( 새로운 경로->파일 ) ;
                 }catch( Exception e ){ System.out.println("파일저장실패 : "+ e);}
@@ -122,18 +117,17 @@ public class RoomService {
         for( RoomEntity entity : roomEntityList  ){ // 리스트에서 엔티티 하나씩 꺼내오기
 
             // [ 조건 ]   Location 범위내 좌표만 저장 하기
-            if(  Double.parseDouble(  entity.getY() ) > qa
-                    && Double.parseDouble(  entity.getY() ) < pa
-                    && Double.parseDouble(  entity.getX() )   > ha
-                    && Double.parseDouble(  entity.getX() )   < oa
+            if(  Double.parseDouble(  entity.getRlat() ) > qa
+                    && Double.parseDouble(  entity.getRlat() ) < pa
+                    && Double.parseDouble(  entity.getRlon() )   > ha
+                    && Double.parseDouble(  entity.getRlon() )   < oa
             ) {
                 // 3. map 객체 생성
                 Map<String, String> map = new HashMap<>();
-                map.put("rname", entity.getRoomname());
-                map.put("lng", entity.getX());
-                map.put("lat", entity.getY());
                 map.put("rno", entity.getRno()+"" );
-                map.put("rimg", entity.getRimg() );
+                map.put("rtitle", entity.getRtitle());
+                map.put("lon", entity.getRlon());
+                map.put("lat", entity.getRlat());
                 // 4. 리스트 넣기
                 Maplist.add(map);
             }

@@ -1,4 +1,4 @@
-package ezenweb.domain;
+package ezenweb.domain.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
