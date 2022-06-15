@@ -4,9 +4,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter@Setter@ToString
-@NoArgsConstructor@AllArgsConstructor@Builder
-@Entity @Table( name="roomimg")
+@Entity
+@Table(name = "Roomimg")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString( exclude="roomEntity" )@Builder
 public class RoomimgEntitiy {
 
     // pk번호

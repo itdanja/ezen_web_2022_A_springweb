@@ -69,6 +69,8 @@ public class RoomService {
                     // 3. 이미지엔티티를 룸엔티티에 추가
                     roomEntity.getRoomimgEntitiyList().add( roomimgEntitiy );
 
+                    System.out.println( roomEntity.getRoomimgEntitiyList().get(0).getRimg()  );
+
                    // 첨부파일.transferTo( 새로운 경로->파일 ) ;
                 }catch( Exception e ){ System.out.println("파일저장실패 : "+ e);}
             }
@@ -144,8 +146,10 @@ public class RoomService {
                 Map<String, String> map = new HashMap<>();
                 map.put("rno", entity.getRno()+"" );
                 map.put("rtitle", entity.getRtitle());
-                map.put("lon", entity.getRlon());
-                map.put("lat", entity.getRlat());
+                map.put("rlon", entity.getRlon());
+                map.put("rlat", entity.getRlat());
+                map.put("rimg", entity.getRoomimgEntitiyList().get(0).getRimg() );
+
                 // 4. 리스트 넣기
                 Maplist.add(map);
             }

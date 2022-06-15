@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @ToString
@@ -36,8 +37,8 @@ public class RoomDto {
 
     //  Dto -> entitiy 메소드
             // 1. 생성자
-            // 2. 빌더 패턴
-            // 3.  ModelMapper 라이브러리
+            // 2. 빌더 패턴 [ 빌더에 포함되지않는 필드는 0 또는 null ]
+            // 3. ModelMapper 라이브러리
     public RoomEntity toentity() {
         return  RoomEntity.builder()
                 .rno( this.rno )
@@ -59,6 +60,7 @@ public class RoomDto {
                 .rparking( this.rparking)
                 .relevator( this.relevator)
                 .rcontents( this.rcontents )
+                .roomimgEntitiyList( new ArrayList<>( ) )
                 .build();
     }
 

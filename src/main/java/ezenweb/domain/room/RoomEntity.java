@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity // DB내 테이블과 매핑[연결]
+@Entity
 @Getter @Setter@ToString
 @NoArgsConstructor @AllArgsConstructor
 @Builder
@@ -38,7 +38,6 @@ public class RoomEntity { // Entity = 개체
     private String rcontents;//                        상세설명
 
     @OneToMany( mappedBy = "roomEntity" , cascade = CascadeType.ALL )
-    private List<RoomimgEntitiy > roomimgEntitiyList = new ArrayList<>();
-
+    private List<RoomimgEntitiy > roomimgEntitiyList ;
 
 }

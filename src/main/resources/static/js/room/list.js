@@ -72,20 +72,34 @@
 
                             // 마커 하나 생성  start
                             var marker =  new kakao.maps.Marker({
-                                position : new kakao.maps.LatLng( position.lat, position.lon) ,
+                                position : new kakao.maps.LatLng( position.rlat, position.rlon) ,
                                 image : markerImage // 마커의 이미지
                             });
 
                                  // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
                                 kakao.maps.event.addListener(marker, 'click', function() {
-                                    alert(" 룸 이름 : " + position.rtitle );
+
+                                        // 해당 모달에 데이터 넣기
+//                                        $.ajax({
+//                                            url : "http://" ,
+//                                            method : "GET",
+//                                            data : { "rno" : position.rno } ,
+//                                            success: function( room ){
+//                                                // 응답받은 데이터를 모달에 데이터 넣기
+//
+//                                            }
+//                                        });
+
+                                        // 모달 띄우기
+                                        $("#modalbtn").click();
+
                                 });
 
                                 // 사이드바에 추가할 html 구성
                                 html +=
                                             '<div class="row">'+
                                                 '<div class="col-md-6">'+
-                                                    '<img src="/upload/''" width="100%">'+
+                                                    '<img src="/upload/'+position.rimg+'" width="100%">'+
                                                 '</div>'+
                                                 '<div class="col-md-6">'+
                                                     '<div> 집번호 : <span> '+position.rno+' </span>  </div>'+
