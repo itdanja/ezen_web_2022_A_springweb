@@ -16,5 +16,9 @@ public class RoomimgEntitiy {
     // 이미지이름
     private String rimg;
     // 방 번호 [ FK ]
+    @ManyToOne
+    @JoinColumn( name = "rno")
+    private RoomEntity roomEntity;
+
 
 }

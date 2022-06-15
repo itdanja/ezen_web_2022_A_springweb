@@ -1,8 +1,11 @@
 package ezenweb.domain.room;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // DB내 테이블과 매핑[연결]
 @Getter @Setter@ToString
@@ -33,5 +36,9 @@ public class RoomEntity { // Entity = 개체
     private boolean relevator;//                    엘리베이터 여부
     @Column( columnDefinition = "TEXT")
     private String rcontents;//                        상세설명
+
+    @OneToMany( mappedBy = "roomEntity" , cascade = CascadeType.ALL )
+    private List<RoomimgEntitiy > roomimgEntitiyList = new ArrayList<>();
+
 
 }

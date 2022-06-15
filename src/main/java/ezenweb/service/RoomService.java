@@ -2,11 +2,14 @@ package ezenweb.service;
 
 import ezenweb.domain.room.RoomEntity;
 import ezenweb.domain.room.RoomRepository;
+import ezenweb.domain.room.RoomimgEntitiy;
+import ezenweb.domain.room.RoomimgRepository;
 import ezenweb.dto.RoomDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.util.*;
 
@@ -15,16 +18,22 @@ public class RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private RoomimgRepository roomimgRepository;
 
     // 1. 룸 저장
+    @Transactional  // 트랜잭션
     public boolean room_save(RoomDto roomDto) {
 
-        // dto -> entitiy
-       RoomEntity roomEntity = roomDto.toentity();
-//        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.map( roomDto , RoomEntity.class);
+        // 1.  dto -> entitiy   [ dto는 DB에 저장할수 없으니까~  ]
+        RoomEntity roomEntity = roomDto.toentity();
+                                                                                            // 자동으로 DTO -> entity 변환 라이브러리
+                                                                                    //        ModelMapper modelMapper = new ModelMapper();
+                                                                                    //        modelMapper.map( roomDto , RoomEntity.class);
+        // 2. 저장 [ 우선적으로 룸 DB에 저장한다. pk생성 ]
+        roomRepository.save(roomEntity);
 
-
+        // 3. 입력받은 첨부파일를 저장한다.
         String uuidfile = null;
         // 첨부파일
         if( roomDto.getRimg().size() != 0 ){    // 첨부파일이 1개 이상이면
@@ -48,15 +57,24 @@ public class RoomService {
                     // 3. **** 첨부파일 업로드 처리
                     file.transferTo( new File(filepath) );
 
+                    // 1. 룸 이미지 엔티티 객체  생성
+                    RoomimgEntitiy roomimgEntitiy = RoomimgEntitiy.builder()
+                            .rimg( uuidfile )
+                            .roomEntity(  roomEntity  )
+                            .build();
 
-                    // 첨부파일.transferTo( 새로운 경로->파일 ) ;
+                    // 2. 룸 엔티티 세이브
+                    roomimgRepository.save( roomimgEntitiy );
+
+                    // 3. 이미지엔티티를 룸엔티티에 추가
+                    roomEntity.getRoomimgEntitiyList().add( roomimgEntitiy );
+
+                   // 첨부파일.transferTo( 새로운 경로->파일 ) ;
                 }catch( Exception e ){ System.out.println("파일저장실패 : "+ e);}
             }
 
         }
 
-        // 저장
-        roomRepository.save(roomEntity);
         return true;
     }
 
