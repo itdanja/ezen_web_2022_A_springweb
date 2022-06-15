@@ -180,12 +180,8 @@ public class RoomService {
           }
             // 3. jsonarray를 json객체 포함
           object.put("rimglist" , jsonArray) ;
-
-            System.out.println( object );
-
+         // 3. 반한
           return object;
-
-
 
 
     }

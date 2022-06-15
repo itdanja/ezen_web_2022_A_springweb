@@ -79,25 +79,13 @@
                                  // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
                                 kakao.maps.event.addListener(marker, 'click', function() {
 
-                                        // 해당 모달에 데이터 넣기
-                                        $.ajax({
-                                            url : "/room/getroom" ,
-                                            method : "GET",
-                                            data : { "rno" : position.rno } ,
-                                            success: function( room ){
-                                                // 응답받은 데이터를 모달에 데이터 넣기
-
-                                            }
-                                        });
-
-                                        // 모달 띄우기
-                                        $("#modalbtn").click();
+                                        getroom( position.rno);
 
                                 });
 
                                 // 사이드바에 추가할 html 구성
                                 html +=
-                                            '<div class="row">'+
+                                            '<div class="row" onclick="getroom('+position.rno+')">'+
                                                 '<div class="col-md-6">'+
                                                     '<img src="/upload/'+position.rimg+'" width="100%">'+
                                                 '</div>'+
@@ -135,3 +123,51 @@
     });
 
 }); // 현재 내 위치의 위도경도 구하기 end
+
+
+
+
+// 모달에 특정 방 정보 출력 메소드
+function getroom( rno ) {
+              // 해당 모달에 데이터 넣기
+                    $.ajax({
+                        url : "/room/getroom" ,
+                        method : "GET",
+                        data : { "rno" : rno } ,
+                        success: function( room ){
+                            let imgtag = "";
+                            // 응답받은 데이터를 모달에 데이터 넣기
+                            console.log( room.rimglist );
+                            for( let i = 0 ; i<room.rimglist.length ; i++ ){
+                                 if( i == 0 ){  // 첫번째 이미지만 active 속성 추가
+                                    imgtag +=
+                                                 '<div class="carousel-item active">'+
+                                                     '<img src="/upload/'+room.rimglist[i]+'" class="d-block w-100" alt="...">'+
+                                                '</div>';
+                                 }else{
+                                    imgtag +=
+                                             '<div class="carousel-item">'+
+                                                 '<img src="/upload/'+room.rimglist[i]+'" class="d-block w-100" alt="...">'+
+                                            '</div>';
+                                 }
+                            }
+                            $("#modalimglist").html( imgtag );
+                            // 모달 띄우기
+                            $("#modalbtn").click();
+                        }
+                    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
