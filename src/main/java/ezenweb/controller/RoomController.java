@@ -65,7 +65,14 @@ public class RoomController {
                 roomlist( @RequestBody Map<String,String> Location   ){
 
         return roomService.room_list( Location );
+    }
+    @GetMapping("/getroom")
+    @ResponseBody
+    public JSONObject getroom( @RequestParam("rno") int rno ){
 
+        roomService.getroom( rno );
+
+        return  null;
     }
 
 }

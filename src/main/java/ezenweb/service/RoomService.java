@@ -5,6 +5,8 @@ import ezenweb.domain.room.RoomRepository;
 import ezenweb.domain.room.RoomimgEntitiy;
 import ezenweb.domain.room.RoomimgRepository;
 import ezenweb.dto.RoomDto;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -160,4 +162,32 @@ public class RoomService {
         return  object;
 
     }
+
+    public JSONObject getroom( int rno ){
+
+        // 1. 해당 룸번호의 룸엔티티 찾기
+          Optional<RoomEntity> optionalRoomEntity =  roomRepository.findById( rno );
+          RoomEntity roomEntity =  optionalRoomEntity.get();
+         // 2.  해당 엔티티 -> json 객체 변환
+          JSONObject object = new JSONObject();
+                // 1. json에 엔티티 필드 값 넣기
+          object.put("rtitle" , roomEntity.getRtitle() );
+
+          JSONArray jsonArray = new JSONArray();
+                // 2. 룸엔티티의 저장된 룸이미지를 반복문을 이용한 룸이미지를 jsonarray에 저장
+          for(  RoomimgEntitiy roomimgEntitiy : roomEntity.getRoomimgEntitiyList()  ) { //  룸별로 이미지 여러개
+              jsonArray.put( roomimgEntitiy.getRimg() );
+          }
+            // 3. jsonarray를 json객체 포함
+          object.put("rimglist" , jsonArray) ;
+
+            System.out.println( object );
+
+          return object;
+
+
+
+
+    }
+
 }

@@ -80,15 +80,15 @@
                                 kakao.maps.event.addListener(marker, 'click', function() {
 
                                         // 해당 모달에 데이터 넣기
-//                                        $.ajax({
-//                                            url : "http://" ,
-//                                            method : "GET",
-//                                            data : { "rno" : position.rno } ,
-//                                            success: function( room ){
-//                                                // 응답받은 데이터를 모달에 데이터 넣기
-//
-//                                            }
-//                                        });
+                                        $.ajax({
+                                            url : "/room/getroom" ,
+                                            method : "GET",
+                                            data : { "rno" : position.rno } ,
+                                            success: function( room ){
+                                                // 응답받은 데이터를 모달에 데이터 넣기
+
+                                            }
+                                        });
 
                                         // 모달 띄우기
                                         $("#modalbtn").click();
