@@ -86,6 +86,12 @@ public class RoomController {
         }catch( Exception e ){ System.out.println( e );}
     }
 
+    // 룸 삭제 매핑
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public boolean delete(@RequestParam("rno") int rno ){
+        return roomService.delete( rno );
+    }
 }
 
 /*

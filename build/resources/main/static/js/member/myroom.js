@@ -31,8 +31,7 @@ function room_delete( rno ) {
         data : { "rno" : rno} ,
         success: function( re ){
             if( re == true ){
-                alert("삭제 성공");
-                myroomlist();
+                alert("삭제 성공");   myroomlist();
             }else{
                 alert("삭제 실패");
             }

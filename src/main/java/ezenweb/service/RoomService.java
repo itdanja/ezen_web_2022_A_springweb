@@ -209,6 +209,7 @@ public class RoomService {
         // 찾은 회원 엔티티의 방 목록 json형으로 변환
         for( RoomEntity entity : memberEntity.getRoomEntityList() ) {
             JSONObject object = new JSONObject();
+            object.put("rno" , entity.getRno() );
             object.put("rtitle" , entity.getRtitle() );
             object.put("rimg" , entity.getRoomimgEntitiyList().get(0).getRimg() );
             object.put("rdate" , entity.getModifiedate() );
@@ -216,5 +217,22 @@ public class RoomService {
         }
         return jsonArray;
     }
+
+    // 룸 삭제 메소드
+    @Transactional
+    public boolean delete( int rno ){
+        // rno 해당 하는 엔티티 찾기
+        RoomEntity roomEntity =  roomRepository.findById( rno ).get();
+
+        if( roomEntity != null ){
+            // 해당 엔티티를 삭제
+            roomRepository.delete( roomEntity );
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
 
 }
