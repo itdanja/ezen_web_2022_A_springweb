@@ -49,6 +49,18 @@ public class MemberController {
         return memberService.update( mname );
     }
 
+    // 7.
+    @GetMapping("/info")
+    public String info(){
+        return "/member/info";
+    }
+    //8.
+    @GetMapping("/myroom")
+    public String myroom(){
+        return "/member/myroom";
+    }
+
+
 
 
     // 2. 회원가입 페이지 이동 매핑

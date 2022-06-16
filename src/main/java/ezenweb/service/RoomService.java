@@ -198,8 +198,23 @@ public class RoomService {
           object.put("rimglist" , jsonArray) ;
          // 3. 반한
           return object;
+    }
 
-
+    // 현재 로그인된 회원이 등록한 방 목록 호출
+    public JSONArray myroomlist(){
+        JSONArray jsonArray = new JSONArray();
+        // 현재 로그인된 회원 엔티티  찾기
+        LoginDto loginDto =  (LoginDto) request.getSession().getAttribute("login");
+        MemberEntity memberEntity =  memberRepository.findById(  loginDto.getMno() ).get() ;
+        // 찾은 회원 엔티티의 방 목록 json형으로 변환
+        for( RoomEntity entity : memberEntity.getRoomEntityList() ) {
+            JSONObject object = new JSONObject();
+            object.put("rtitle" , entity.getRtitle() );
+            object.put("rimg" , entity.getRoomimgEntitiyList().get(0).getRimg() );
+            object.put("rdate" , entity.getModifiedate() );
+            jsonArray.put( object  );
+        }
+        return jsonArray;
     }
 
 }

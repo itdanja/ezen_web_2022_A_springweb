@@ -17,7 +17,7 @@
     <a href="/room/list"> 지도보기 </a>
 
     <span th:if="${ session.login != null }"  th:text="${ session.login }"></span>
-    <a th:if="${ session.login != null }"       href ="/member/update"> 회원수정 </a>
+    <a th:if="${ session.login != null }"       href ="/member/info"> 회원정보 </a>
     <a th:if="${ session.login != null }"       href ="/member/logout"> 로그아웃 </a>
 
     <a th:if = "${ session.login ==null }"    href="/member/signup"> 회원가입 </a>
