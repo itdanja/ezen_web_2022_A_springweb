@@ -1,9 +1,12 @@
 package ezenweb.service;
 
+import ezenweb.domain.member.MemberEntity;
+import ezenweb.domain.member.MemberRepository;
 import ezenweb.domain.room.RoomEntity;
 import ezenweb.domain.room.RoomRepository;
 import ezenweb.domain.room.RoomimgEntitiy;
 import ezenweb.domain.room.RoomimgRepository;
+import ezenweb.dto.LoginDto;
 import ezenweb.dto.RoomDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.util.*;
@@ -22,10 +26,19 @@ public class RoomService {
     private RoomRepository roomRepository;
     @Autowired
     private RoomimgRepository roomimgRepository;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private MemberRepository memberRepository;
 
     // 1. 룸 저장
     @Transactional  // 트랜잭션
     public boolean room_save(RoomDto roomDto) {
+
+        // 현재 로그인된 세션내 dto 호출
+        LoginDto loginDto  = (LoginDto) request.getSession().getAttribute("login");
+        // 현재 로그인된 회원의 엔티티 찾기
+        MemberEntity memberEntity =  memberRepository.findById( loginDto.getMno() ).get();
 
         // 1.  dto -> entitiy   [ dto는 DB에 저장할수 없으니까~  ]
         RoomEntity roomEntity = roomDto.toentity();             // 1. 객체 생성
@@ -34,6 +47,11 @@ public class RoomService {
                                                                                     //        modelMapper.map( roomDto , RoomEntity.class);
         // 2. 저장 [ 우선적으로 룸 DB에 저장한다. pk생성 ]
         roomRepository.save( roomEntity );                    //  2. 해당 객체가 매핑
+
+            //  ** 현재 로그인된 회원 엔티티를 룸 엔티티에 저장
+            roomEntity.setMemberEntity( memberEntity );
+            //  ** 현재 로그인된 회원 엔티티내 룸 리스트에 룸 엔티티 추가
+            memberEntity.getRoomEntityList().add( roomEntity );
 
         // 3. 입력받은 첨부파일를 저장한다.
         String uuidfile = null;

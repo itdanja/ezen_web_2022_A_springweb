@@ -1,11 +1,14 @@
 package ezenweb.domain.member;
 
 import ezenweb.domain.BaseTime;
+import ezenweb.domain.room.RoomEntity;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="member")
@@ -20,6 +23,9 @@ public class MemberEntity extends BaseTime {
     private String mid;
     private String mpasswrd;
     private String mname;
+
+    @OneToMany( mappedBy = "memberEntity" ,cascade = CascadeType.ALL)
+    List<RoomEntity> roomEntityList ;
 
 }
 

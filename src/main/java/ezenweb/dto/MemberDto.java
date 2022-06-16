@@ -3,6 +3,8 @@ package ezenweb.dto;
 import ezenweb.domain.member.MemberEntity;
 import lombok.*;
 
+import java.util.ArrayList;
+
 @Getter@Setter@ToString
 @NoArgsConstructor@AllArgsConstructor
 @Builder
@@ -20,6 +22,7 @@ public class MemberDto {
                 .mid( this.mid)
                 .mpasswrd(this.mpasswrd)
                 .mname(this.mname)
+                .roomEntityList( new ArrayList<>() )
                 .build();
     }
 

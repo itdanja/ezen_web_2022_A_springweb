@@ -1,6 +1,7 @@
 package ezenweb.domain.room;
 
 import ezenweb.domain.BaseTime;
+import ezenweb.domain.member.MemberEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -41,8 +42,9 @@ public class RoomEntity extends BaseTime { // Entity = 개체
     @OneToMany( mappedBy = "roomEntity" , cascade = CascadeType.ALL )
     private List<RoomimgEntitiy > roomimgEntitiyList ;
 
-
-
+    @ManyToOne
+    @JoinColumn( name = "mno" )
+    private MemberEntity memberEntity;
 
 
 }
