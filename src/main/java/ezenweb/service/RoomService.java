@@ -28,12 +28,12 @@ public class RoomService {
     public boolean room_save(RoomDto roomDto) {
 
         // 1.  dto -> entitiy   [ dto는 DB에 저장할수 없으니까~  ]
-        RoomEntity roomEntity = roomDto.toentity();
+        RoomEntity roomEntity = roomDto.toentity();             // 1. 객체 생성
                                                                                             // 자동으로 DTO -> entity 변환 라이브러리
                                                                                     //        ModelMapper modelMapper = new ModelMapper();
                                                                                     //        modelMapper.map( roomDto , RoomEntity.class);
         // 2. 저장 [ 우선적으로 룸 DB에 저장한다. pk생성 ]
-        roomRepository.save(roomEntity);
+        roomRepository.save( roomEntity );                    //  2. 해당 객체가 매핑
 
         // 3. 입력받은 첨부파일를 저장한다.
         String uuidfile = null;
@@ -70,8 +70,6 @@ public class RoomService {
 
                     // 3. 이미지엔티티를 룸엔티티에 추가
                     roomEntity.getRoomimgEntitiyList().add( roomimgEntitiy );
-
-                    System.out.println( roomEntity.getRoomimgEntitiyList().get(0).getRimg()  );
 
                    // 첨부파일.transferTo( 새로운 경로->파일 ) ;
                 }catch( Exception e ){ System.out.println("파일저장실패 : "+ e);}

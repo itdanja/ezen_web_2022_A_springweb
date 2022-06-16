@@ -1,12 +1,15 @@
 package ezenweb.domain.member;
 
-import lombok.Builder;
+import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Connection;
 
 @Entity
 @Table(name="member")
 @Builder
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class MemberEntity {
 
     @Id
@@ -15,5 +18,6 @@ public class MemberEntity {
     private String mid;
     private String mpasswrd;
     private String mname;
+
 
 }

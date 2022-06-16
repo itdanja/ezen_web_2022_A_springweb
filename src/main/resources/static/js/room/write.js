@@ -15,7 +15,6 @@ function save(){
             alert("java와 통신성공");
         }
     });
-
 }
 
 

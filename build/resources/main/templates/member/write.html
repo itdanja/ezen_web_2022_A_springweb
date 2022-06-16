@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div th:replace="header.html :: header"></div>
+
+    <form id="signupform">
+        아이디 : <input type="" name="mid">
+        비밀번호 : <input type="" name="mpasswrd">
+        이름 :  <input type="" name="mname">
+        <button type="button" onclick="signup()">등록</button>
+    </form>
+
+    <script src="/js/member/signup.js"></script>
+
+
+</body>
+</html>
