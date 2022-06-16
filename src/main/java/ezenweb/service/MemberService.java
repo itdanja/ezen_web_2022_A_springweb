@@ -2,6 +2,7 @@ package ezenweb.service;
 
 import ezenweb.domain.member.MemberEntity;
 import ezenweb.domain.member.MemberRepository;
+import ezenweb.dto.LoginDto;
 import ezenweb.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,16 @@ public class MemberService {
         for( MemberEntity entity : memberEntityList  ){
             // 3. 아이디와 비밀번호가 동일하며
             if( entity.getMid().equals(mid) && entity.getMpasswrd().equals(mpassword) ){
+
+                // 로그인세션에 사용될 dto 생성
+                LoginDto logindto = LoginDto.builder()
+                        .mno(entity.getMno() )
+                        .mid( entity.getMid() )
+                        .mname( entity.getMname() )
+                        .build();
+
                 // 세션 객체 호출
-                request.getSession().setAttribute("login" , mid ); // 세션이름 ,데이터
+                request.getSession().setAttribute("login" , logindto ); // 세션이름 ,데이터
 
                 return true; // 4. 로그인 성공
             }
@@ -76,7 +85,14 @@ public class MemberService {
     // 4. 회원수정 메소드
     @Transactional
     public boolean update( String mname ){
-        MemberEntity memberEntity =  memberRepository.findById(1).get();
+
+        // 세션내 dto 호출
+        LoginDto loginDto = (LoginDto) request.getSession().getAttribute("login");
+        if( loginDto == null ){ // 세션이 없으면
+            return false;
+        }
+
+        MemberEntity memberEntity =  memberRepository.findById( loginDto.getMno() ).get();
         memberEntity.setMname( mname );
         // 해당 엔티티의 필드를 수정하면 자동으로 DB도 수정된다.
         return true;
