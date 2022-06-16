@@ -24,7 +24,7 @@ public class MemberEntity extends BaseTime {
     private String mpasswrd;
     private String mname;
 
-    @OneToMany( mappedBy = "memberEntity" ,cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "memberEntity" , cascade = CascadeType.ALL)
     List<RoomEntity> roomEntityList ;
 
 }

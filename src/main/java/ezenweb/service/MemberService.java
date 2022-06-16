@@ -98,6 +98,20 @@ public class MemberService {
         return true;
     }
 
+    // 5. 회원탈퇴 메소드
+    public boolean delete( String mpassword ){
+        // 1. 세션 호출
+        LoginDto loginDto = (LoginDto) request.getSession().getAttribute("login");
+        // 2. 엔티티 호출
+        MemberEntity memberEntity =  memberRepository.findById( loginDto.getMno() ).get();
+        // 3. 삭제 처리 조건
+        if( memberEntity.getMpasswrd().equals( mpassword) ){ // 만약에 해당 로그인된 패스워드와 입력받은 패스워드가 동일하면
+            memberRepository.delete( memberEntity ); // 엔티티 삭제
+            return true;
+        }
+        return false;
+    }
+
 
 }
 

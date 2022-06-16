@@ -60,6 +60,16 @@ public class MemberController {
         return "/member/myroom";
     }
 
+    //9. 삭제 페이지 이동 매핑
+    @GetMapping("/delete")
+    public String delete( ){ return  "/member/delete"; }
+    // 10. 삭제 처리 매핑
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public boolean delete( @RequestParam("mpassword") String mpassword ){
+        return memberService.delete( mpassword);
+    }
+
 
 
 
