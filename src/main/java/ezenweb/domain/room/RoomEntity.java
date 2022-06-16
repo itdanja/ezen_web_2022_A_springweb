@@ -1,5 +1,6 @@
 package ezenweb.domain.room;
 
+import ezenweb.domain.BaseTime;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 @Table( name = "room")  // 테이블 이름 정의
-public class RoomEntity { // Entity = 개체
+public class RoomEntity extends BaseTime { // Entity = 개체
 
     @Id // PK
     @GeneratedValue( strategy = GenerationType.IDENTITY ) // AUTO KEY
@@ -39,5 +40,9 @@ public class RoomEntity { // Entity = 개체
 
     @OneToMany( mappedBy = "roomEntity" , cascade = CascadeType.ALL )
     private List<RoomimgEntitiy > roomimgEntitiyList ;
+
+
+
+
 
 }

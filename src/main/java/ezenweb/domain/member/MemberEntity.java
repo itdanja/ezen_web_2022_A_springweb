@@ -1,6 +1,8 @@
 package ezenweb.domain.member;
 
+import ezenweb.domain.BaseTime;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Connection;
@@ -10,7 +12,7 @@ import java.sql.Connection;
 @Builder
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-public class MemberEntity {
+public class MemberEntity extends BaseTime {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -19,5 +21,22 @@ public class MemberEntity {
     private String mpasswrd;
     private String mname;
 
-
 }
+
+
+// extends : 상속 [ 슈퍼클래스로부터 메모리 할당 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

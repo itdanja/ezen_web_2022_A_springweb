@@ -1,5 +1,6 @@
 package ezenweb.domain.room;
 
+import ezenweb.domain.BaseTime;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString( exclude="roomEntity" )@Builder
-public class RoomimgEntitiy {
+public class RoomimgEntitiy extends BaseTime {
 
     // pk번호
     @Id
@@ -23,6 +24,10 @@ public class RoomimgEntitiy {
     @ManyToOne
     @JoinColumn( name = "rno")
     private RoomEntity roomEntity;
+
+
+
+
 
 
 }
