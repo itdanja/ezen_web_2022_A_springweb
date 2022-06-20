@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div  th:replace="header.html :: header"></div>
+
+    <div class="container">
+        <a href="/board/list">목록보기</a>
+        <button onclick="board_delete()"> 삭제 </button>
+        <a href="/board/update"> 수정 </a>
+    </div>
+    <script src="/js/board/board.js"></script>
+</body>
+</html>

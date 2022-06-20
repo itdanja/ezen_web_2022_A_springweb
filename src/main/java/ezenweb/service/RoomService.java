@@ -70,7 +70,7 @@ public class RoomService {
 
                 // 2. 경로 설정
                 //        \:제어문자
-                String dir  = "C:\\Users\\505-t\\Desktop\\spring\\springweb\\src\\main\\resources\\static\\upload\\";
+                String dir  = "C:\\Users\\505-t\\Desktop\\springweb\\ezen_web_2022_A_springweb\\src\\main\\resources\\static\\upload\\";
                 String filepath = dir+uuidfile;
 
                 try {

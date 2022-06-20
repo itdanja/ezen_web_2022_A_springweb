@@ -15,6 +15,7 @@
     <a href="/">메인</a>          <!--  href="URL"    :     Controller클래스내 @GetMapping("URL)" -->
     <a th:if="${ session.login != null }"       href ="/room/write"> 등록 </a>
     <a href="/room/list"> 지도보기 </a>
+    <a href="/board/list"> 자유게시판 </a>
 
     <span th:if="${ session.login != null }"  th:text="${ session.login }"></span>
     <a th:if="${ session.login != null }"       href ="/member/info"> 회원정보 </a>
