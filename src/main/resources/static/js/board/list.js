@@ -13,7 +13,8 @@ function board_list(){
                     html +=
                             '<tr>'+
                                     '<td>'+boardlist[i].bno+'</td> '+
-                                    '<td><a href="/board/view">'+boardlist[i].btitle+'<a></td> '+
+//                                    '<td><a href="/board/view/'+boardlist[i].bno+'">'+boardlist[i].btitle+'<a></td> '+
+                                    '<td><span onclick="view('+boardlist[i].bno+')">'+boardlist[i].btitle+'<span></td>'+
                                     '<td>'+boardlist[i].bdate+'</td>'+
                                     '<td>'+boardlist[i].bview+'</td>'+
                                     '<td>'+boardlist[i].blike+'</td>'+
@@ -23,3 +24,20 @@ function board_list(){
             }
         });
 }
+function view( bno ) {
+    $.ajax({
+        url : "/board/view/"+bno,
+        success : function( re ){
+
+        }
+    });
+}
+
+
+
+
+
+
+
+
+

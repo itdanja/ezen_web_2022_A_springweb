@@ -4,6 +4,7 @@ import ezenweb.dto.BoardDto;
 import ezenweb.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +20,21 @@ public class BoardController {
     @GetMapping("/list")
     public String list(){ return "board/list";}
     // 2. 게시물 개별 조회 페이지
-    @GetMapping("/view")  // URL 경로에 변수 =
-    public String view( ){
-        return "board/view";
+    @GetMapping("/view/{bno}")  // URL 경로에 변수 = {변수명}
+    @ResponseBody
+    public void view(@PathVariable("bno") int bno , HttpServletResponse response ){ // @PathVariable("변수명")
+            //  Model 인터페이스 :  Controller -> HTML : 데이터 전송
+//            model.addAttribute( "data" ,  boardService.getboard(bno) );
+        try {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(boardService.getboard(bno));
+        }catch( Exception e ){
+            System.out.println( e );
+        }
+
+//        return "board/view"; // 템플릿을 ajax 에게 통신
+
     }
     // 3. 게시물 수정 페이지
     @GetMapping("/update")
@@ -59,3 +72,15 @@ public class BoardController {
         return boardService.delete( bno );
     }
 }
+///////////////////////////////////////
+/*
+    URL 경로상의 변수 이동  [ method : GET 방식 ]
+        1.  <a href="URL/데이터">  <a>
+        2.   ajax :   url : "/board/view/"+bno;
+               @GetMapping("/view/{변수명}")
+                    @PathVariable("변수명")
+
+
+
+
+ */
