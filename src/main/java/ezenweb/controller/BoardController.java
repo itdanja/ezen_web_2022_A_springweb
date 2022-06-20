@@ -19,8 +19,10 @@ public class BoardController {
     @GetMapping("/list")
     public String list(){ return "board/list";}
     // 2. 게시물 개별 조회 페이지
-    @GetMapping("/view")
-    public String view(){ return "board/view";}
+    @GetMapping("/view")  // URL 경로에 변수 =
+    public String view( ){
+        return "board/view";
+    }
     // 3. 게시물 수정 페이지
     @GetMapping("/update")
     public String update(){ return "board/update";}
