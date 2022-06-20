@@ -1,13 +1,15 @@
 // 마커 클러스터 지도 사용
 
-    // 0. 현재 내 위치의 위도 경도 구하기
-    navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude, // 위도
-                 lng = position.coords.longitude; // 경도
+//    // 0. 현재 내 위치의 위도 경도 구하기
+//    navigator.geolocation.getCurrentPosition(function(position) {
+//            var lat = position.coords.latitude, // 위도
+//                 lng = position.coords.longitude; // 경도
+//                 console.log( lat , lng );
+//    }); // 현재 내 위치의 위도경도 구하기 end
 
     // 1. Map 변수
     var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-        center : new kakao.maps.LatLng( lat , lng ), // 지도의 중심좌표 // 현재 접속된 디바이스 좌표
+        center : new kakao.maps.LatLng( 37.3141978  , 126.857308 ), // 지도의 중심좌표 // 현재 접속된 디바이스 좌표
         level : 5 // 지도의 확대 레벨
     });
 
@@ -121,8 +123,6 @@
         // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
-
-}); // 현재 내 위치의 위도경도 구하기 end
 
 
 
