@@ -10,6 +10,12 @@
     <div class="container">
 
         <form id="saveform">
+            카테고리
+        <select name="category">
+            <option value="자유게시판" selected> 자유게시판 </option>
+            <option value="질문게시판"> 질문게시판 </option>
+            <option value="거래노하우"> 거래노하우 </option>
+        </select>
             제목 :    <input type="text"  name="btitle">
             내용 :    <input type="text"  name="bcontent">
             <button type="button" onclick="board_save()">쓰기처리</button>

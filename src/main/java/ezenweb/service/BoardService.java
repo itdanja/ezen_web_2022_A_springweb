@@ -153,5 +153,20 @@ public class BoardService {
         boardRepository.delete(  boardEntity );
         return true;
     }
+    // 5. 카테고리 호출 메소드
+    public JSONArray getcategorylist(){
+
+        List<CategoryEntity> categoryEntityList
+                = categoryRepository.findAll();
+
+        JSONArray jsonArray = new JSONArray();
+        for( CategoryEntity entity : categoryEntityList ){
+            JSONObject object = new JSONObject();
+            object.put("cno" , entity.getCno() );
+            object.put("cname" , entity.getCname());
+            jsonArray.put( object );
+        }
+        return jsonArray;
+    }
 
 }

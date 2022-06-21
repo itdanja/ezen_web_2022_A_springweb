@@ -1,5 +1,7 @@
 
 board_list();
+category_list();
+
 // 2. R 출력 처리 메소드
 function board_list(){
         $.ajax({
@@ -24,6 +26,22 @@ function board_list(){
                 $("#boardtable").html( html );
             }
         });
+}
+function category_list(){
+    $.ajax({
+        url: '/board/getcategorylist' ,
+        success : function( categorylist ){
+            let html = "";
+            for( let i = 0 ; i<categorylist.length ; i++ ){
+                html +=
+                    '<button onclick="selectcategory('+categorylist[i].cno+')">'+categorylist[i].cname+'</button>';
+            }
+            $("#categorybox").html( html );
+        }
+    });
+}
+function selectcategory( cno ){
+    alert( cno );
 }
 
 

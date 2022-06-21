@@ -82,6 +82,21 @@ public class BoardController {
     public boolean delete( @RequestParam("bno") int bno ){
         return boardService.delete( bno );
     }
+
+    // 5. 카테고리 출력 메소드
+    @GetMapping("/getcategorylist")
+    public void getcategorylist( HttpServletResponse response){
+
+        try{
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.getWriter().print(boardService.getcategorylist(   ));
+        }catch( Exception e){
+            System.out.println(e);
+        }
+
+    }
+
 }
 ///////////////////////////////////////
 /*
