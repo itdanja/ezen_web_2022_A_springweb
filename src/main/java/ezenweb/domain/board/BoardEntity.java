@@ -24,6 +24,9 @@ public class BoardEntity extends BaseTime {
     @JoinColumn(name = "mno")
     private MemberEntity memberEntity;
     // 카테고리 [ 연관관계 ]
+    @ManyToOne
+    @JoinColumn( name = "cno")
+    private CategoryEntity categoryEntity;
     // 첨부파일 [ 연관관계 ]
     // 댓글 [ 연관관계 ]
 }

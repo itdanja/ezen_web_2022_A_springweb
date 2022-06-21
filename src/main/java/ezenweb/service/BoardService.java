@@ -85,7 +85,7 @@ public class BoardService {
 
             // 세션 호출
             Object com =  request.getSession().getAttribute(ip+bno);
-            if( com == null  ){ // 만약에 세션이 있으면
+            if( com == null  ){ // 만약에 세션이 없으면
                 // ip 와 bno 합쳐서 세션(서버내 저장소) 부여
                 request.getSession().setAttribute(ip+bno , 1 );
                 request.getSession().setMaxInactiveInterval( 60*60*24  ); // 세션 허용시간 [ 초단위  ]
