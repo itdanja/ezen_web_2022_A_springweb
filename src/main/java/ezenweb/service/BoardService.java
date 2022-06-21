@@ -70,15 +70,16 @@ public class BoardService {
                             categoryEntity = categoryRepository.findById( cno ).get();
                         }
 
+
                 BoardEntity boardEntity =  boardRepository.save( boardDto.toentity()  );
                     // 4. 작성자 추가
                 boardEntity.setMemberEntity( optionalMember.get() );
+                boardEntity.setCategoryEntity( categoryEntity );
 
                         // 카테고리 엔티티 에 게시물 연결
                         categoryEntity.getBoardEntityList().add(  boardEntity );
                         // 회원엔티티에 게시물 연결
                         optionalMember.get().getBoardEntityList().add( boardEntity );
-
                     // 5.반환
                 return true;
             }
@@ -88,19 +89,21 @@ public class BoardService {
         return false;
     }
     // 2. R[ 인수 : x  반환: 1. JSON  2. MAP ]
-    public JSONArray getboardlist(){
+    public JSONArray getboardlist( int cno    ){
         JSONArray jsonArray = new JSONArray();
         List<BoardEntity> boardEntities =  boardRepository.findAll();
         //* 모든 엔티티 -> JSON 변환
         for( BoardEntity entity : boardEntities ){
-            JSONObject object = new JSONObject();
-            object.put("bno" , entity.getBno() );
-            object.put("btitle" , entity.getBtitle() );
-            object.put("bindate" , entity.getCreatedate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")) );
-            object.put("bview" , entity.getBview() );
-            object.put("blike" , entity.getBlike() );
-            object.put("mid" , entity.getMemberEntity().getMid()  );
-            jsonArray.put( object);
+            if( entity.getCategoryEntity().getCno() == cno ) {
+                JSONObject object = new JSONObject();
+                object.put("bno", entity.getBno());
+                object.put("btitle", entity.getBtitle());
+                object.put("bindate", entity.getCreatedate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+                object.put("bview", entity.getBview());
+                object.put("blike", entity.getBlike());
+                object.put("mid", entity.getMemberEntity().getMid());
+                jsonArray.put(object);
+            }
         }
         return jsonArray;
     }

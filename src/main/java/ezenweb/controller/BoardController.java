@@ -48,11 +48,14 @@ public class BoardController {
     }
     // 2. R : 모든 게시물 출력 메소드
     @GetMapping("/getboardlist")
-    public void getboardlist( HttpServletResponse response ){
+    public void getboardlist(
+            HttpServletResponse response ,
+            @RequestParam("cno") int cno   ){
+
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
-            response.getWriter().println(boardService.getboardlist());
+            response.getWriter().println(boardService.getboardlist( cno  ));
         }catch( Exception e ){ System.out.println( e ); }
     }
 
@@ -60,6 +63,7 @@ public class BoardController {
     @GetMapping("/getboard")
     public void getboard( HttpServletResponse response){
         int bno =  (Integer) request.getSession().getAttribute("bno");
+
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
