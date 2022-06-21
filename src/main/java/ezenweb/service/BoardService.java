@@ -3,6 +3,8 @@ package ezenweb.service;
 
 import ezenweb.domain.board.BoardEntity;
 import ezenweb.domain.board.BoardRepository;
+import ezenweb.domain.board.CategoryEntity;
+import ezenweb.domain.board.CategoryRepository;
 import ezenweb.domain.member.MemberEntity;
 import ezenweb.domain.member.MemberRepository;
 import ezenweb.dto.BoardDto;
@@ -28,6 +30,8 @@ public class BoardService {
     private HttpServletRequest request;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     // 1. C [ 인수 : 게시물 dto ]
     @Transactional
@@ -45,9 +49,36 @@ public class BoardService {
             if ( optionalMember.isPresent() ){ // null 아니면
                     // Optional클래스내 메소드 : .isPresent()    : null 이 아니면
                     // 3. Dto -> entity
+                            // 만약에 기존에 있는 카테고리가 있으면
+                            boolean sw = false;
+                            int cno =  0 ;
+                            List<CategoryEntity> categoryEntityList =  categoryRepository.findAll();
+                            for( CategoryEntity entity : categoryEntityList){
+                                if( entity.getCname().equals(  boardDto.getCategory())){
+                                    sw = true;
+                                    cno = entity.getCno();
+                                }
+                            }
+                        CategoryEntity categoryEntity = null;
+                        if( !sw ){ // 카테고리가 없을경우
+                                // 1. 카테고리 생성
+                                categoryEntity = CategoryEntity.builder()
+                                        .cname( boardDto.getCategory())
+                                        .build();
+                                categoryRepository.save( categoryEntity );
+                        }else{ // 카테고리 있을경우
+                            categoryEntity = categoryRepository.findById( cno ).get();
+                        }
+
                 BoardEntity boardEntity =  boardRepository.save( boardDto.toentity()  );
                     // 4. 작성자 추가
                 boardEntity.setMemberEntity( optionalMember.get() );
+
+                        // 카테고리 엔티티 에 게시물 연결
+                        categoryEntity.getBoardEntityList().add(  boardEntity );
+                        // 회원엔티티에 게시물 연결
+                        optionalMember.get().getBoardEntityList().add( boardEntity );
+
                     // 5.반환
                 return true;
             }

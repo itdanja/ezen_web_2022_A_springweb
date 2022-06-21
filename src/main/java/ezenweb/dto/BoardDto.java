@@ -13,6 +13,8 @@ public class BoardDto {
     private int bview;              // 조회수
     private int blike;              // 좋아요 수
 
+    private String category;    // 카데고리
+
     // DTO -> ENTITY
     public BoardEntity toentity(){
         return BoardEntity.builder()

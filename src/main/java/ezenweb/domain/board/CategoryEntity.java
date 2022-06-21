@@ -19,6 +19,7 @@ public class CategoryEntity extends BaseTime {
     private int cno;
     private String cname;
     // board 연관관계
+    @Builder.Default
     @OneToMany(mappedBy = "categoryEntity" , cascade = CascadeType.ALL)
     private List<BoardEntity> boardEntityList = new ArrayList<>();
 }
