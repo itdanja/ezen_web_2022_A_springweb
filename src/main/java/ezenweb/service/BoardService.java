@@ -74,9 +74,25 @@ public class BoardService {
         return jsonArray;
     }
     // 2. R : 개별조회 [ 게시물번호 ]
+    @Transactional
     public JSONObject getboard( int bno ){
+
+        // 조회수 증가처리 [ 기준 : ip / 24시간 ]
+        String ip = request.getRemoteAddr();    // 사용자의 ip 가져오기
+
         Optional<BoardEntity> optional =  boardRepository.findById( bno );
         BoardEntity entity = optional.get();
+
+            // 세션 호출
+            Object com =  request.getSession().getAttribute(ip+bno);
+            if( com == null  ){ // 만약에 세션이 있으면
+                // ip 와 bno 합쳐서 세션(서버내 저장소) 부여
+                request.getSession().setAttribute(ip+bno , 1 );
+                request.getSession().setMaxInactiveInterval( 60*60*24  ); // 세션 허용시간 [ 초단위  ]
+                // 조회수 증가처리
+                entity.setBview( entity.getBview()+1 );
+            }
+
         JSONObject object = new JSONObject();
         object.put("bno" , entity.getBno() );
         object.put("btitle" , entity.getBtitle() );

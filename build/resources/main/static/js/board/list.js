@@ -15,9 +15,10 @@ function board_list(){
                                     '<td>'+boardlist[i].bno+'</td> '+
                                     '<td><a href="/board/view/'+boardlist[i].bno+'">'+boardlist[i].btitle+'<a></td> '+
 //                                   '<td><span onclick="view('+boardlist[i].bno+')">'+boardlist[i].btitle+'<span></td>'+
-                                    '<td>'+boardlist[i].bdate+'</td>'+
+                                    '<td>'+boardlist[i].bindate+'</td>'+
                                     '<td>'+boardlist[i].bview+'</td>'+
                                     '<td>'+boardlist[i].blike+'</td>'+
+                                    '<td>'+boardlist[i].mid+'</td>'+
                              '</tr>';
                 }
                 $("#boardtable").html( html );
