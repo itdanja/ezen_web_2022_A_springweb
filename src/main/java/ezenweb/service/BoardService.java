@@ -92,32 +92,29 @@ public class BoardService {
     public JSONArray getboardlist( int cno ,String key , String keyword ){
         JSONArray jsonArray = new JSONArray();
 
-        System.out.println( key );
-        System.out.println( keyword );
-
         List<BoardEntity> boardEntities = null ; // 선언만
 
         // 필드에 따른 검색 기능
         if(  key.equals("btitle") ){
-            System.out.println( "제목 검색 ");
-            boardEntities = boardRepository.findBybtitle( keyword);
+            boardEntities = boardRepository.findBybtitle( cno ,  keyword);
         }else if( key.equals("bcontent") ){
-            System.out.println( "내용 검색 ");
-            boardEntities = boardRepository.findBybcontent( keyword);
+            boardEntities = boardRepository.findBybcontent(  cno , keyword);
         }else if( key.equals("mid") ){
             // 입력받은 mid -> [ mno ] 엔티티 변환
-            System.out.println( "작성자 검색 ");
-            MemberEntity memberEntity =  memberRepository.findBymid( keyword ).get();
-            boardEntities = boardRepository.findBymno(  memberEntity ); // 찾은 회원 엔티티를 -> 인수로 전달
+                // 만약에 없는 아이디를 검색했으면
+            Optional<MemberEntity> optionalMember=  memberRepository.findBymid( keyword );
+            if( optionalMember.isPresent()){ // .isPresent() : Optional 이 null 아니면
+                MemberEntity memberEntity = optionalMember.get(); // 엔티티 추출
+                boardEntities = boardRepository.findBymno( cno ,  memberEntity ); // 찾은 회원 엔티티를 -> 인수로 전달
+            }else{ // null 이면
+                return jsonArray; // 검색 결과가 없으면
+            }
         }else{ // 검색이 없으면
-            boardEntities = boardRepository.findAll( );
+            boardEntities = boardRepository.findBybtitle( cno , keyword );
         }
-
-        System.out.println( boardEntities );
 
         //* 모든 엔티티 -> JSON 변환
         for( BoardEntity entity : boardEntities ){
-            if( entity.getCategoryEntity().getCno() == cno ) { // 만약에 선택한 카테고리 이면
                 JSONObject object = new JSONObject();
                 object.put("bno", entity.getBno());
                 object.put("btitle", entity.getBtitle());
@@ -126,7 +123,6 @@ public class BoardService {
                 object.put("blike", entity.getBlike());
                 object.put("mid", entity.getMemberEntity().getMid());
                 jsonArray.put(object);
-            }
         }
         return jsonArray;
     }

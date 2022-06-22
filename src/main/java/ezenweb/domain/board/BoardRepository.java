@@ -30,13 +30,13 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
             // 2. sql 적용
 //            @Query( value = "select * from board where btitle = :keyword" , nativeQuery = true )
 //            List<BoardEntity> findBybtitle( @Param("keyword") String keyword  );
-        @Query( value = "select * from board where btitle like %:keyword%" , nativeQuery = true )
-        List<BoardEntity> findBybtitle(  @Param("keyword")  String keyword  );
+        @Query( value = "select * from board where cno = :cno and btitle like %:keyword%" , nativeQuery = true )
+        List<BoardEntity> findBybtitle( int cno ,   @Param("keyword")  String keyword  );
         // 2. 내용 검색
-        @Query( value = "select * from board where bcontent like %:keyword%" , nativeQuery = true )
-        List<BoardEntity> findBybcontent(   @Param("keyword") String keyword  );
+        @Query( value = "select * from board where cno = :cno and bcontent like %:keyword%" , nativeQuery = true )
+        List<BoardEntity> findBybcontent(  int cno ,    @Param("keyword") String keyword  );
         // 3. 작성자 검색
-        @Query( value = "select * from board where mno = :#{#memberEntity.mno}", nativeQuery = true  )
-        List<BoardEntity> findBymno(    @Param("memberEntity") MemberEntity memberEntity  );
+        @Query( value = "select * from board where cno = :cno and mno = :#{#memberEntity.mno}", nativeQuery = true  )
+        List<BoardEntity> findBymno(   int cno ,    @Param("memberEntity") MemberEntity memberEntity  );
 
 }
