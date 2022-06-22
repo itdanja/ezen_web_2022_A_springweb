@@ -1,6 +1,6 @@
 
 // 페이지가 처음 열을때 게시물 출력 메소드 호출
-board_list(  1 , 0  , "" , ""  );       //  cno , page , key , keyword
+board_list(  1 , 0  , "" , "" );       //  cno , page , key , keyword
 category_list( );
 
 // 전역변수 !!!!!!!
@@ -17,7 +17,9 @@ function board_list( cno , page , key , keyword   ){
         alert( "현재 카테고리번호 : " + this.current_cno  );
         alert( "현재 페이지번호 : " + this.current_page  );
         if( key != undefined ) { this.current_key = key; }
-        if( keyword != undefined ){ this.current_keyword; }
+        if( keyword != undefined ){ this.current_keyword = keyword; }
+        alert( "현재 key  : " + this.current_key  );
+        alert( "현재 keyword : " + this.current_keyword  );
 
         $.ajax({
             url : "/board/getboardlist" ,
@@ -48,6 +50,7 @@ function board_list( cno , page , key , keyword   ){
                  }
 
                  let pagehtml = "";
+
                  for( let i = 0 ; i<5 ; i++ ){
 
                     pagehtml +=
@@ -55,6 +58,7 @@ function board_list( cno , page , key , keyword   ){
                             '<button class="page-link" onclick="board_list('+cno+','+i+')"> '+(i+1)+' </button>'+  // 검색 없음
                           '</li>';
                  }
+
                 console.log( pagehtml);
                 $("#boardtable").html( html ); // 테이블에 html  넣기
                 $("#pagebtnbox").html( pagehtml); // 페이징버튼 html 넣기
