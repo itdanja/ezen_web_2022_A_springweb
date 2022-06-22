@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Entity;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
@@ -99,20 +100,18 @@ public class BoardService {
         // 필드에 따른 검색 기능
         if(  key.equals("btitle") ){
             System.out.println( "제목 검색 ");
-            boardEntities = boardRepository.findAllBybtitle( keyword);
+            boardEntities = boardRepository.findBybtitle( keyword);
         }else if( key.equals("bcontent") ){
             System.out.println( "내용 검색 ");
-            boardEntities = boardRepository.findAllBybcontent( keyword);
+            boardEntities = boardRepository.findBybcontent( keyword);
         }else if( key.equals("mid") ){
             // 입력받은 mid -> [ mno ] 엔티티 변환
             System.out.println( "작성자 검색 ");
-//            MemberEntity memberEntity =  memberRepository.findBymid( keyword ).get();
-//            boardEntities = boardRepository.findAllBymno( keyword );
-        }else{
-            boardEntities = boardRepository.findAllBybtitle( keyword);
+            MemberEntity memberEntity =  memberRepository.findBymid( keyword ).get();
+            boardEntities = boardRepository.findBymno(  memberEntity ); // 찾은 회원 엔티티를 -> 인수로 전달
+        }else{ // 검색이 없으면
+            boardEntities = boardRepository.findAll( );
         }
-        System.out.println( boardEntities );
-
 
         //* 모든 엔티티 -> JSON 변환
         for( BoardEntity entity : boardEntities ){
