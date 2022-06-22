@@ -50,12 +50,14 @@ public class BoardController {
     @GetMapping("/getboardlist")
     public void getboardlist(
             HttpServletResponse response ,
-            @RequestParam("cno") int cno   ){
+            @RequestParam("cno") int cno ,
+            @RequestParam("key") String key ,
+            @RequestParam("keyword") String keyword){
 
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
-            response.getWriter().println(boardService.getboardlist( cno  ));
+            response.getWriter().println(boardService.getboardlist( cno , key , keyword  ));
         }catch( Exception e ){ System.out.println( e ); }
     }
 

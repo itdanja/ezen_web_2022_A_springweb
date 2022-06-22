@@ -1,12 +1,12 @@
 
-board_list( 1 );
+board_list( 1 ,"","" ); // 페이지가 처음 열을때 게시물 출력 메소드 호출
 category_list( );
 
-// 2. R 출력 처리 메소드
-function board_list( cno  ){
+// 2. R 출력 처리 메소드 [ cno = 카테고리번호 , key = 검색 키 , keyword = 검색내용 ]
+function board_list( cno , key , keyword  ){
         $.ajax({
             url : "/board/getboardlist" ,
-            data : {"cno" : cno } ,
+            data : {"cno" : cno , "key" : key , "keyword" : keyword } ,
             method : "GET",
             success : function( boardlist ){
 
@@ -42,6 +42,16 @@ function category_list(){
     });
 }
 
+// 검색 버튼를 눌렀을때
+function search(){
+
+    let key = $("#key").val();
+    let keyword = $("#keyword").val();
+    // 키 와 키워드 입력받음
+
+    board_list( 1 , key , keyword );
+
+}
 
 
 

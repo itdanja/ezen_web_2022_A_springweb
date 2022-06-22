@@ -49,27 +49,26 @@ public class BoardService {
             if ( optionalMember.isPresent() ){ // null 아니면
                     // Optional클래스내 메소드 : .isPresent()    : null 이 아니면
                     // 3. Dto -> entity
-                            // 만약에 기존에 있는 카테고리가 있으면
-                            boolean sw = false;
-                            int cno =  0 ;
-                            List<CategoryEntity> categoryEntityList =  categoryRepository.findAll();
-                            for( CategoryEntity entity : categoryEntityList){
-                                if( entity.getCname().equals(  boardDto.getCategory())){
-                                    sw = true;
-                                    cno = entity.getCno();
-                                }
-                            }
-                        CategoryEntity categoryEntity = null;
-                        if( !sw ){ // 카테고리가 없을경우
-                                // 1. 카테고리 생성
-                                categoryEntity = CategoryEntity.builder()
-                                        .cname( boardDto.getCategory())
-                                        .build();
-                                categoryRepository.save( categoryEntity );
-                        }else{ // 카테고리 있을경우
-                            categoryEntity = categoryRepository.findById( cno ).get();
+                    // 만약에 기존에 있는 카테고리가 있으면
+                    boolean sw = false;
+                    int cno =  0 ;
+                    List<CategoryEntity> categoryEntityList =  categoryRepository.findAll();
+                    for( CategoryEntity entity : categoryEntityList){
+                        if( entity.getCname().equals(  boardDto.getCategory())){
+                            sw = true;
+                            cno = entity.getCno();
                         }
-
+                    }
+                    CategoryEntity categoryEntity = null;
+                    if( !sw ){ // 카테고리가 없을경우
+                            // 1. 카테고리 생성
+                            categoryEntity = CategoryEntity.builder()
+                                    .cname( boardDto.getCategory())
+                                    .build();
+                            categoryRepository.save( categoryEntity );
+                    }else{ // 카테고리 있을경우
+                        categoryEntity = categoryRepository.findById( cno ).get();
+                    }
 
                 BoardEntity boardEntity =  boardRepository.save( boardDto.toentity()  );
                     // 4. 작성자 추가
@@ -89,12 +88,35 @@ public class BoardService {
         return false;
     }
     // 2. R[ 인수 : x  반환: 1. JSON  2. MAP ]
-    public JSONArray getboardlist( int cno    ){
+    public JSONArray getboardlist( int cno ,String key , String keyword ){
         JSONArray jsonArray = new JSONArray();
-        List<BoardEntity> boardEntities =  boardRepository.findAll();
+
+        System.out.println( key );
+        System.out.println( keyword );
+
+        List<BoardEntity> boardEntities = null ; // 선언만
+
+        // 필드에 따른 검색 기능
+        if(  key.equals("btitle") ){
+            System.out.println( "제목 검색 ");
+            boardEntities = boardRepository.findAllBybtitle( keyword);
+        }else if( key.equals("bcontent") ){
+            System.out.println( "내용 검색 ");
+            boardEntities = boardRepository.findAllBybcontent( keyword);
+        }else if( key.equals("mid") ){
+            // 입력받은 mid -> [ mno ] 엔티티 변환
+            System.out.println( "작성자 검색 ");
+//            MemberEntity memberEntity =  memberRepository.findBymid( keyword ).get();
+//            boardEntities = boardRepository.findAllBymno( keyword );
+        }else{
+            boardEntities = boardRepository.findAllBybtitle( keyword);
+        }
+        System.out.println( boardEntities );
+
+
         //* 모든 엔티티 -> JSON 변환
         for( BoardEntity entity : boardEntities ){
-            if( entity.getCategoryEntity().getCno() == cno ) {
+            if( entity.getCategoryEntity().getCno() == cno ) { // 만약에 선택한 카테고리 이면
                 JSONObject object = new JSONObject();
                 object.put("bno", entity.getBno());
                 object.put("btitle", entity.getBtitle());
