@@ -1,24 +1,27 @@
 
-// 전역변수 !!!!!!!
-let current_cno = 1; // 카테고리 선택 변수 [ 없을경우 1 = 자유게시판 ]
-//let current_key = ""; // 현재 검색된 키 변수  [ 없을경우 공백 ]
-//let current_keyword = ""; // 현재 검색된 키워드 변수[ 없을경우 공백 ]
-
 // 페이지가 처음 열을때 게시물 출력 메소드 호출
-board_list( "","" );
+board_list(  1 , 0  , "" , ""  );       //  cno , page , key , keyword
 category_list( );
 
-// 2. R 출력 처리 메소드 [ cno = 카테고리번호 , key = 검색 키 , keyword = 검색내용 ]
-function board_list( key , keyword , page  ){
+// 전역변수 !!!!!!!
+let current_cno = 1; // 카테고리 선택 변수 [ 없을경우 1 = 자유게시판 ]
+let current_page = 0;
+let current_key = ""; // 현재 검색된 키 변수  [ 없을경우 공백 ]
+let current_keyword = ""; // 현재 검색된 키워드 변수[ 없을경우 공백 ]
 
-//        // 현재 출력된 정보 변경
-//        this.current_cno = cno ; // this.전역변수
-//        this.current_key = key ;
-//        this.current_keyword = keyword;
+// 2. R 출력 처리 메소드 [ cno = 카테고리번호 , key = 검색 키 , keyword = 검색내용 ]
+function board_list( cno , page , key , keyword   ){
+
+        this.current_cno = cno ;
+        this.current_page = page;
+        alert( "현재 카테고리번호 : " + this.current_cno  );
+        alert( "현재 페이지번호 : " + this.current_page  );
+        if( key != undefined ) { this.current_key = key; }
+        if( keyword != undefined ){ this.current_keyword; }
 
         $.ajax({
             url : "/board/getboardlist" ,
-            data : {"cno" :  this.current_cno , "key" :  key , "keyword" : keyword , "page" : page } ,
+            data : {"cno" :  this.current_cno , "key" :  this.current_key  , "keyword" : this.current_keyword , "page" :  this.current_page } ,
             method : "GET",
             success : function( boardlist ){
 
@@ -44,7 +47,17 @@ function board_list( key , keyword , page  ){
                         }
                  }
 
-                $("#boardtable").html( html );
+                 let pagehtml = "";
+                 for( let i = 0 ; i<5 ; i++ ){
+
+                    pagehtml +=
+                          '<li class="page-item"> '+
+                            '<button class="page-link" onclick="board_list('+cno+','+i+')"> '+(i+1)+' </button>'+  // 검색 없음
+                          '</li>';
+                 }
+                console.log( pagehtml);
+                $("#boardtable").html( html ); // 테이블에 html  넣기
+                $("#pagebtnbox").html( pagehtml); // 페이징버튼 html 넣기
 
             }
         });
@@ -63,26 +76,17 @@ function category_list(){
     });
 }
 
-// 페이지 버튼를 눌렀을때
-function pagebtn( page ){
-    alert( page );
-    board_list( "","",page);
-
-}
 // 카테고리 버튼을 눌렀을때
 function categorybtn(  cno  ){
-
     this.current_cno = cno; // 현재 카테고리번호 변경
-
-    board_list(  "" , "" ); // 검색이 없을경우 공백 전달
-
+    board_list(  cno , 0 ,  "" , "" ); // 검색이 없을경우 공백 전달
 }
 // 검색 버튼을 눌렀을때
 function search(){
     let key = $("#key").val();
     let keyword = $("#keyword").val();
     // 키 와 키워드 입력받음
-    board_list(  key , keyword );
+    board_list(  this.current_cno , 0 ,  key , keyword );
 }
 
 
