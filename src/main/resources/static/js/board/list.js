@@ -11,6 +11,7 @@ category_list( );
 // 2. R 출력 처리 메소드 [ cno = 카테고리번호 , key = 검색 키 , keyword = 검색내용 ]
 function board_list( key , keyword  ){
 
+        if(  this.current_cno = "undefined" )  this.current_cno = 1;
         alert( key );
         alert( keyword );
 
