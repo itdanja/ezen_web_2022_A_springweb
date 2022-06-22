@@ -7,7 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity // 테이블과 매핑
-@Getter @Setter @ToString
+@Getter @Setter
+@ToString( exclude = { "memberEntity" , "categoryEntity" } ) // [ 객체주소값 대신 데이터로 출력해주는 메소드 ]
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 @Table(name="board")

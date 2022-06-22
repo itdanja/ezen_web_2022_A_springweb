@@ -113,6 +113,8 @@ public class BoardService {
             boardEntities = boardRepository.findAll( );
         }
 
+        System.out.println( boardEntities );
+
         //* 모든 엔티티 -> JSON 변환
         for( BoardEntity entity : boardEntities ){
             if( entity.getCategoryEntity().getCno() == cno ) { // 만약에 선택한 카테고리 이면
