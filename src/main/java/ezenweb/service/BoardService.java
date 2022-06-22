@@ -13,6 +13,10 @@ import ezenweb.dto.MemberDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
@@ -89,29 +93,47 @@ public class BoardService {
         return false;
     }
     // 2. R[ 인수 : x  반환: 1. JSON  2. MAP ]
-    public JSONArray getboardlist( int cno ,String key , String keyword ){
+    public JSONArray getboardlist( int cno ,String key , String keyword , int page  ){
         JSONArray jsonArray = new JSONArray();
 
-        List<BoardEntity> boardEntities = null ; // 선언만
+        Page<BoardEntity> boardEntities = null ; // 선언만
+
+        // Pageable : 페이지처리 관련 인테페이스
+       // PageRequest : 페이징처리 관련 클래스
+                    // PageRequest.of(  page , size ) : 페이징처리  설정
+                            // page = "현재페이지"   [ 0부터 시작 ]
+                            // size = "현재페이지에 보여줄 게시물수"
+                            // sort = "정렬기준"  [   Sort.by( Sort.Direction.DESC , "정렬필드명" )   ]
+                                // sort 문제점 : 정렬 필드명에 _ 인식 불가능 ~~~  ---> SQL 처리
+        Pageable pageable = PageRequest.of( page , 3 , Sort.by( Sort.Direction.DESC , "bno")    ); // SQL : limit 와 동일 한 기능처리
 
         // 필드에 따른 검색 기능
         if(  key.equals("btitle") ){
-            boardEntities = boardRepository.findBybtitle( cno ,  keyword);
+            boardEntities = boardRepository.findBybtitle( cno ,  keyword , pageable );
         }else if( key.equals("bcontent") ){
-            boardEntities = boardRepository.findBybcontent(  cno , keyword);
+            boardEntities = boardRepository.findBybcontent(  cno , keyword ,  pageable );
         }else if( key.equals("mid") ){
             // 입력받은 mid -> [ mno ] 엔티티 변환
                 // 만약에 없는 아이디를 검색했으면
             Optional<MemberEntity> optionalMember=  memberRepository.findBymid( keyword );
             if( optionalMember.isPresent()){ // .isPresent() : Optional 이 null 아니면
                 MemberEntity memberEntity = optionalMember.get(); // 엔티티 추출
-                boardEntities = boardRepository.findBymno( cno ,  memberEntity ); // 찾은 회원 엔티티를 -> 인수로 전달
+                boardEntities = boardRepository.findBymno( cno ,  memberEntity , pageable  ); // 찾은 회원 엔티티를 -> 인수로 전달
             }else{ // null 이면
                 return jsonArray; // 검색 결과가 없으면
             }
         }else{ // 검색이 없으면
-            boardEntities = boardRepository.findBybtitle( cno , keyword );
+            boardEntities = boardRepository.findBybtitle( cno , keyword ,  pageable );
         }
+
+        // 엔티티 반환타입을 List 대신 Page 인터페이스 할경우에
+//        System.out.println( "검색된 총 게시물 수 : "  + boardEntities.getTotalElements() );
+           System.out.println( "검색된 총 페이지 수 : " + boardEntities.getTotalPages() );
+//        System.out.println( "검색된 게시물 정보 : " + boardEntities.getContent() );
+//        System.out.println( "현재 페이지수 : " + boardEntities.getNumber() );
+//        System.out.println( "현재 페이지의 게시물수 : " + boardEntities.getNumberOfElements() );
+//        System.out.println( "현재 페이지가 첫페이지 여부 확인  : " +  boardEntities.isFirst() );
+//        System.out.println( "현재 페이지가 마지막 페이지 여부 확인  : " +  boardEntities.isLast() );
 
         //* 모든 엔티티 -> JSON 변환
         for( BoardEntity entity : boardEntities ){

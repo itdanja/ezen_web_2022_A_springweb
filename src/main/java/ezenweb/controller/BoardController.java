@@ -52,12 +52,13 @@ public class BoardController {
             HttpServletResponse response ,
             @RequestParam("cno") int cno ,
             @RequestParam("key") String key ,
-            @RequestParam("keyword") String keyword){
+            @RequestParam("keyword") String keyword ,
+            @RequestParam("page") int page  ){
 
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
-            response.getWriter().println(boardService.getboardlist( cno , key , keyword  ));
+            response.getWriter().println(boardService.getboardlist( cno , key , keyword , page ));
         }catch( Exception e ){ System.out.println( e ); }
     }
 

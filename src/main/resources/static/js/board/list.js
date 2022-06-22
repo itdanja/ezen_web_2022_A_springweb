@@ -9,11 +9,7 @@ board_list( "","" );
 category_list( );
 
 // 2. R 출력 처리 메소드 [ cno = 카테고리번호 , key = 검색 키 , keyword = 검색내용 ]
-function board_list( key , keyword  ){
-
-        if(  this.current_cno = "undefined" )  this.current_cno = 1;
-        alert( key );
-        alert( keyword );
+function board_list( key , keyword , page  ){
 
 //        // 현재 출력된 정보 변경
 //        this.current_cno = cno ; // this.전역변수
@@ -22,10 +18,9 @@ function board_list( key , keyword  ){
 
         $.ajax({
             url : "/board/getboardlist" ,
-            data : {"cno" :  this.current_cno , "key" :  key , "keyword" : keyword } ,
+            data : {"cno" :  this.current_cno , "key" :  key , "keyword" : keyword , "page" : page } ,
             method : "GET",
             success : function( boardlist ){
-
 
                  let html = '<tr> <th width="10%">번호</th> <th width="50%">제목</th> <th width="10%">작성일</th> <th width="10%">조회수</th><th width="10%">좋아요수</th><th width="10%">작성자</th></tr>';
 
@@ -66,6 +61,13 @@ function category_list(){
             $("#categorybox").html( html );
         }
     });
+}
+
+// 페이지 버튼를 눌렀을때
+function pagebtn( page ){
+    alert( page );
+    board_list( "","",page);
+
 }
 // 카테고리 버튼을 눌렀을때
 function categorybtn(  cno  ){
