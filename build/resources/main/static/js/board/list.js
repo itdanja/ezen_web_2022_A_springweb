@@ -14,12 +14,13 @@ function board_list( cno , page , key , keyword   ){
 
         this.current_cno = cno ;
         this.current_page = page;
-        alert( "현재 카테고리번호 : " + this.current_cno  );
-        alert( "현재 페이지번호 : " + this.current_page  );
         if( key != undefined ) { this.current_key = key; }
         if( keyword != undefined ){ this.current_keyword = keyword; }
-        alert( "현재 key  : " + this.current_key  );
-        alert( "현재 keyword : " + this.current_keyword  );
+
+//        alert( "현재 카테고리번호 : " + this.current_cno  );
+//        alert( "현재 페이지번호 : " + this.current_page  );
+//        alert( "현재 key  : " + this.current_key  );
+//        alert( "현재 keyword : " + this.current_keyword  );
 
         $.ajax({
             url : "/board/getboardlist" ,
@@ -27,39 +28,68 @@ function board_list( cno , page , key , keyword   ){
             method : "GET",
             success : function( boardlist ){
 
+                console.log( boardlist );
+
                  let html = '<tr> <th width="10%">번호</th> <th width="50%">제목</th> <th width="10%">작성일</th> <th width="10%">조회수</th><th width="10%">좋아요수</th><th width="10%">작성자</th></tr>';
 
-                if( boardlist.length == 0 ){ // 검색 결과가 존재하지 않으면
+                if( boardlist.data.length == 0 ){ // 검색 결과가 존재하지 않으면
                           html +=
                                 '<tr>'+
                                         '<td colspan="5">검색 결과가 존재하지 않습니다.</td> '+
                                  '</tr>';
                 }else{
-                        for( let i = 0 ; i<boardlist.length ; i++ ){
+                        for( let i = 0 ; i<boardlist.data.length ; i++ ){
                             html +=
                                     '<tr>'+
-                                            '<td>'+boardlist[i].bno+'</td> '+
-                                            '<td><a href="/board/view/'+boardlist[i].bno+'">'+boardlist[i].btitle+'<a></td> '+
+                                            '<td>'+boardlist.data[i].bno+'</td> '+
+                                            '<td><a href="/board/view/'+boardlist.data[i].bno+'">'+boardlist.data[i].btitle+'<a></td> '+
         //                                   '<td><span onclick="view('+boardlist[i].bno+')">'+boardlist[i].btitle+'<span></td>'+
-                                            '<td>'+boardlist[i].bindate+'</td>'+
-                                            '<td>'+boardlist[i].bview+'</td>'+
-                                            '<td>'+boardlist[i].blike+'</td>'+
-                                            '<td>'+boardlist[i].mid+'</td>'+
+                                            '<td>'+boardlist.data[i].bindate+'</td>'+
+                                            '<td>'+boardlist.data[i].bview+'</td>'+
+                                            '<td>'+boardlist.data[i].blike+'</td>'+
+                                            '<td>'+boardlist.data[i].mid+'</td>'+
                                      '</tr>';
                         }
                  }
-
+//////////////////////////////////////////////////////////////////////////////////////// 페이징 버튼 생성 코드 ///////////////////////////////////////////////////////////////////////
                  let pagehtml = "";
-
-                 for( let i = 0 ; i<5 ; i++ ){
-
+                 ////////////////////////////////////////////  이전 버튼 ////////////////////////////////////////////////
+                 if( page == 0 ){   // 현재 페이지가 첫페이지 이면
+                        pagehtml +=
+                         '<li class="page-item"> '+
+                                     '<button class="page-link" onclick="board_list('+cno+','+ (page)  +')"> 이전 </button>'+  // 검색 없음
+                          '</li>';
+                 }else{  // 현재 페이지가 첫페이지가 아니면
+                     pagehtml +=
+                        '<li class="page-item"> '+
+                                    '<button class="page-link" onclick="board_list('+cno+','+ (page-1)  +')"> 이전 </button>'+  // 검색 없음
+                         '</li>';
+                  }
+                 ////////////////////////////////////////////  ////////////////////////////////// ////////////////////////////////////////////////
+                ////////////////////////////////////////// 가운데에 들어가는 페이징 버튼수 //////////////////////////////////////////
+                 for( let i = boardlist.startbtn ; i<=boardlist.endhtn ; i++ ){
                     pagehtml +=
                           '<li class="page-item"> '+
-                            '<button class="page-link" onclick="board_list('+cno+','+i+')"> '+(i+1)+' </button>'+  // 검색 없음
+                            '<button class="page-link" onclick="board_list('+cno+','+(i-1)+')"> '+i+' </button>'+  // 검색 없음
                           '</li>';
                  }
+                ///////////////////////////////////////// ///////////////////////////////////////  //////////////////////////////////////////
+                ////////////////////////////////////////////  다음 버튼 ////////////////////////////////////////////////
+                if( page == boardlist.totalpages -1 ){ // 현재 페이지가 마지막 페이지이면
+                     pagehtml +=
+                            '<li class="page-item"> '+
+                                        '<button class="page-link" onclick="board_list('+cno+','+ (page)  +')"> 다음 </button>'+  // 검색 없음
+                             '</li>';
+                }else{ // 아니면
+                     pagehtml +=
+                        '<li class="page-item"> '+
+                                    '<button class="page-link" onclick="board_list('+cno+','+ (page+1)  +')"> 다음 </button>'+  // 검색 없음
+                         '</li>';
+                }
 
-                console.log( pagehtml);
+                ////////////////////////////////////////////  ////////////// ////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////// ///////////////////////////////////  ///////////////////////////////////////////////////////////////////////
+
                 $("#boardtable").html( html ); // 테이블에 html  넣기
                 $("#pagebtnbox").html( pagehtml); // 페이징버튼 html 넣기
 
