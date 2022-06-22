@@ -19,6 +19,8 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
         // 5. [ 직접 쿼리작성 ] :  @Query( value = "쿼리문작성" , nativeQuery = true )
                         // SQL에 변수 넣기
                              // * 필드(column) 명은 변수 으로 불가능
+                            // * @Param ( ) 생략가능
+                           //  *     :변수명      ,    ?인수순서번호
                             // 1.   [인수] @Param("변수명") String 변수명   ->   [SQL ]  :변수명
                             // 2.   [ 인수] @Param("변수명") 엔티티 변수명   --> [ SQL ]   :#{ #엔티티명.필드명 }
 
@@ -29,12 +31,12 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 //            @Query( value = "select * from board where btitle = :keyword" , nativeQuery = true )
 //            List<BoardEntity> findBybtitle( @Param("keyword") String keyword  );
         @Query( value = "select * from board where btitle like %:keyword%" , nativeQuery = true )
-        List<BoardEntity> findBybtitle( @Param("keyword") String keyword  );
+        List<BoardEntity> findBybtitle(  @Param("keyword")  String keyword  );
         // 2. 내용 검색
         @Query( value = "select * from board where bcontent like %:keyword%" , nativeQuery = true )
-        List<BoardEntity> findBybcontent( @Param("keyword") String keyword  );
+        List<BoardEntity> findBybcontent(   @Param("keyword") String keyword  );
         // 3. 작성자 검색
         @Query( value = "select * from board where mno = :#{#memberEntity.mno}", nativeQuery = true  )
-        List<BoardEntity> findBymno( @Param("memberEntity")  MemberEntity memberEntity  );
+        List<BoardEntity> findBymno(    @Param("memberEntity") MemberEntity memberEntity  );
 
 }
