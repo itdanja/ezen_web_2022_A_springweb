@@ -70,9 +70,6 @@ public class MemberController {
         return memberService.delete( mpassword);
     }
 
-
-
-
     // 2. 회원가입 페이지 이동 매핑
     @GetMapping("/signup")
     public String signup(){
