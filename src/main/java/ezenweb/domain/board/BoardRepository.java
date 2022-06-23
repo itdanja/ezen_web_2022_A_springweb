@@ -39,6 +39,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
         // 2. 내용 검색
         @Query( value = "select * from board where cno = :cno and bcontent like %:keyword%" , nativeQuery = true )
         Page<BoardEntity> findBybcontent(  int cno ,    @Param("keyword") String keyword , Pageable pageable  );
+
         // 3. 작성자 검색
         @Query( value = "select * from board where cno = :cno and mno = :#{#memberEntity.mno}", nativeQuery = true  )
         Page<BoardEntity> findBymno(   int cno ,    @Param("memberEntity") MemberEntity memberEntity , Pageable pageable  );
