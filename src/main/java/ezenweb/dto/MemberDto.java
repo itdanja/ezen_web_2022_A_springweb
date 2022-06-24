@@ -20,7 +20,6 @@ public class MemberDto {
 
     // DTO -> ENTITY
     public MemberEntity toentitiy(){
-
         // 패스워드 암호화
             //  BCrypt : 레인보우 테이블 공격 방지를 위해 솔트(Salt)를 통합한 적응형 함수 [ 32비트 ]
             //  랜덤의 Salt 부여하여 여러번 해시를 적응 ---> 암호 해독 어렵다...
@@ -36,7 +35,6 @@ public class MemberDto {
                 .role( Role.MEMBER )
                 .build();
     }
-
 }
 
 

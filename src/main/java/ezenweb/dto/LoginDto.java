@@ -17,7 +17,7 @@ public class LoginDto implements UserDetails {  // 로그인 세션에 넣을 Dt
     private String mid; // 회원아이디
     private String mpassword;// 회원비밀번호
     private String mname; // 회원 이름
-    private final Set<GrantedAuthority> authorities;    // 부여된 인증들
+    private final Set<GrantedAuthority> authorities;    // 부여된 인증들의 권한
 
     public LoginDto( MemberEntity memberEntity , Collection< ? extends GrantedAuthority > authorityList ) {
         this.mno = memberEntity.getMno();
