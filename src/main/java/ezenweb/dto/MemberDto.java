@@ -29,7 +29,7 @@ public class MemberDto {
 
         return MemberEntity.builder() // 빌더패턴 : 포함하지 않는 필드는 0 또는 null 자동 대입
                 .mid( this.mid)
-                .mpasswrd(   passwordEncoder.encode(  this.mpasswrd ) )
+                .mpassword(   passwordEncoder.encode(  this.mpasswrd ) )
                 .mname(this.mname)
                 .roomEntityList( new ArrayList<>() )
                 // 권한부여

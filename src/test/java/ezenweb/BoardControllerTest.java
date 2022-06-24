@@ -50,29 +50,29 @@ public class BoardControllerTest {
 
     ////////////////////////////////////////////////////
     // 게시물 작성 테스트
-    @Test
-    void testsaveservice(  ) throws Exception {
-        // 변수 전달 테스트
-            // http요청메소드("URL").param("필드명",데이터)
-        // 세션 전달 테스트
-            //   MockHttpSession 클래스
-            // http요청메소드("URL").session( 세션객체명 );
-
-        LoginDto loginDto = LoginDto.builder()
-                .mno(1)
-                .mid("qweqwe")
-                .mname("qweqwe")
-                .build();
-        MockHttpSession mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("login", loginDto);
-
-        mvc.perform( post("/board/save")
-                                .param("btitle" , "테스트제목")
-                                .param("bcontent","테스트내용")
-                                .param("category","자유게시판")
-                                .session( mockHttpSession ) )
-                .andDo(print());
-    }
+//    @Test
+//    void testsaveservice(  ) throws Exception {
+//        // 변수 전달 테스트
+//            // http요청메소드("URL").param("필드명",데이터)
+//        // 세션 전달 테스트
+//            //   MockHttpSession 클래스
+//            // http요청메소드("URL").session( 세션객체명 );
+//
+//        LoginDto loginDto = LoginDto.builder()
+//                .mno(1)
+//                .mid("qweqwe")
+//                .mname("qweqwe")
+//                .build();
+//        MockHttpSession mockHttpSession = new MockHttpSession();
+//        mockHttpSession.setAttribute("login", loginDto);
+//
+//        mvc.perform( post("/board/save")
+//                                .param("btitle" , "테스트제목")
+//                                .param("bcontent","테스트내용")
+//                                .param("category","자유게시판")
+//                                .session( mockHttpSession ) )
+//                .andDo(print());
+//    }
 
     // 모든 게시물 호출 테스트
     @Test

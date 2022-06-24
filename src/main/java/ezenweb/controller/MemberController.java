@@ -21,13 +21,14 @@ public class MemberController {
         return "/member/login";
     }
 
-    // 3. 로그인 처리 매핑
-    @PostMapping("/login")
-    @ResponseBody
-    public boolean save(@RequestParam("mid") String mid ,
-                        @RequestParam("mpassword") String mpassword ) {
-        return memberService.login( mid , mpassword );
-    }
+//    // 3. 로그인 처리 매핑
+//    @PostMapping("/login")
+//    @ResponseBody
+//    public boolean save(@RequestParam("mid") String mid ,
+//                        @RequestParam("mpassword") String mpassword ) {
+//        return memberService.login( mid , mpassword );
+//    }
+
     // 4. 로그아웃 처리 매핑
     @GetMapping("/logout")
     public String logout( ) {
