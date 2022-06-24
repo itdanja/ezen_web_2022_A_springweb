@@ -16,7 +16,8 @@
         <p th:text="${#authentication.principal}"></p>
             <!-- 인증 객체의 이름  -->
         <p th:text="${#authentication.name}"></p>
-
+            <!-- 인증된 권한[Role] 확인 -->
+        <p th:text ="${#authentication.authorities}"> </p>
 
     <div th:replace="footer.html :: footer"></div>
 

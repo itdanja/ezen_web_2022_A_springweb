@@ -12,24 +12,19 @@ import java.util.Set;
 
 @Getter
 public class LoginDto implements UserDetails {  // 로그인 세션에 넣을 Dto 생성
+                                    // UserDetails -> authorities 필수 필드 선언
     private int mno;        // 회원번호
     private String mid; // 회원아이디
     private String mpassword;// 회원비밀번호
     private String mname; // 회원 이름
-    private Set<GrantedAuthority> authorityList; // 인증
+    private final Set<GrantedAuthority> authorities;    // 부여된 인증들
 
     public LoginDto( MemberEntity memberEntity , Collection< ? extends GrantedAuthority > authorityList ) {
         this.mno = memberEntity.getMno();
         this.mid = memberEntity.getMid();
         this.mpassword = memberEntity.getMpassword();
         this.mname = memberEntity.getMname();
-        this.authorityList = Collections.unmodifiableSet( new LinkedHashSet<>( authorityList ));
-    }
-
-    // 인증검색
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        this.authorities = Collections.unmodifiableSet( new LinkedHashSet<>( authorityList ));
     }
 
     // 패스워드 반환
