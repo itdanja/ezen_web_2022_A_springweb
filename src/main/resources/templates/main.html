@@ -10,6 +10,14 @@
         <p th:text="${data.name}"></p>
         <p th:text="${data.amount}"></p>
 
+        <p> 인증 세션 확인 </p>
+        <!-- 타임리프에서 인증 세션 호출를 위한 라이브러리  필요 -->
+            <!-- 인증 객체 호출 -->
+        <p th:text="${#authentication.principal}"></p>
+            <!-- 인증 객체의 이름  -->
+        <p th:text="${#authentication.name}"></p>
+
+
     <div th:replace="footer.html :: footer"></div>
 
 </body>

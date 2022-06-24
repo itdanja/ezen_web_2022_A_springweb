@@ -27,13 +27,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin() // 로그인페이지 보안 설정
                 .loginPage("/member/login") // 아이디 / 비밀번호를 입력받을 페이지 URL
-                .loginProcessingUrl("/member/login") // 로그인 처리할 URL
+                .loginProcessingUrl("/member/logincontroller") // 로그일 처리할 URL 정의
                 .defaultSuccessUrl("/")// 로그인 성공시 이동할 URL
                 .usernameParameter("mid") // 로그인시 아이디로 입력받을 변수명 [ 기본값 : user -> mid ]
                 .passwordParameter("mpassword")// 로그인시 비밀번호로 입력받을 변수명[ 기본값 : password -> mpassword ]
+                // usernameParameter,passwordParameter   => 변수 name 필드명
                 .and()
                 .csrf()  // csrf : 사이트 간 요청 위조 [ 해킹 공격 방법중 하나 ] = 서버에게 요청할수 있는 페이지 제한
-                .ignoringAntMatchers("/member/login")
+                .ignoringAntMatchers("/member/logincontroller")
                 .ignoringAntMatchers("/member/signup")
                 .and()
                 .exceptionHandling() // 오류페이지 발생시 시큐리티 페이지 전환

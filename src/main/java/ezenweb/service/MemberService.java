@@ -22,11 +22,12 @@ import java.util.Optional;
 public class MemberService implements UserDetailsService {
                                             // UserDetailsService 인터페이스 [ 추상메소드 존재~~ ]
 
-    // 1. 로그인 서비스 제공 메소드
-    // 2. 패스워드 검증 X [ 시큐리티 제공 ]
-    // 3. 아이디만 검증 처리
+    // * 로그인 서비스 제공 메소드
+    // 1. 패스워드 검증 X [ 시큐리티 제공 ]
+    // 2. 아이디만 검증 처리
     @Override
     public UserDetails loadUserByUsername(String mid ) throws UsernameNotFoundException {
+
         // 1. 회원 아이디로 엔티티 찾기
         Optional<MemberEntity> entityOptional =  memberRepository.findBymid( mid );
         MemberEntity memberEntity = entityOptional.orElse(null);
@@ -39,6 +40,7 @@ public class MemberService implements UserDetailsService {
                 //   List<GrantedAuthority> : 부여된 인증들을 모아두기
         authorityList.add(    new SimpleGrantedAuthority( memberEntity.getrolekey() ) );
                 // 리스트에 인증된 엔티티의 키를 보관
+        // 세션부여????????????????????   -> UserDetails  -> 인증되면 세션 부여
         return new LoginDto(  memberEntity , authorityList ); // 회원엔티티 , 인증된 리스트를  인증세션 부여
     }
 

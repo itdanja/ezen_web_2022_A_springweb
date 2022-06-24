@@ -1,6 +1,6 @@
 function login(){
     $.ajax({
-        url: "/member/login",
+        url: "/member/logincontroller",
         method: "POST",
         data : { "mid" : $("#mid").val()    , "mpassword" : $("#mpassword").val()   } ,
         success: function( re ){

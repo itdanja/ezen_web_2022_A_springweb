@@ -32,6 +32,9 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20220320' // JSON 라이브러리
 //    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8' //  Dto -> entitiy // entitiy->Dto
     implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링 시큐리티 [ 보안관련 클래스 / 메소드 제공 ]
+
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'   // 타임리프에서 인증객체 사용
+
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
