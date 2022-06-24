@@ -70,6 +70,7 @@ public class MemberService {
 
     // 2. 회원가입처리 메소드
     public boolean signup(  MemberDto memberDto){
+
         // dto -> entitiy [ 이유 : dto는 DB로 들어갈수 없다~~ ]
         MemberEntity memberEntity = memberDto.toentitiy();
         // entitiy 저장

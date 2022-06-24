@@ -25,6 +25,11 @@ public class MemberEntity extends BaseTime {
     private String mpasswrd;
     private String mname;
 
+    // DB에 저장될 enum 타입 설정
+    // @Enumerated( EnumType.ORDINAL ) // 열거형 인덱스 번호
+    @Enumerated( EnumType.STRING ) // 열거형 이름
+    private Role role;
+
     @OneToMany( mappedBy = "memberEntity" , cascade = CascadeType.ALL)
     List<RoomEntity> roomEntityList ;
 

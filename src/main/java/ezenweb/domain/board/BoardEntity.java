@@ -2,9 +2,11 @@ package ezenweb.domain.board;
 
 import ezenweb.domain.BaseTime;
 import ezenweb.domain.member.MemberEntity;
+import ezenweb.domain.member.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 
 @Entity // 테이블과 매핑
 @Getter @Setter
@@ -20,6 +22,7 @@ public class BoardEntity extends BaseTime {
     private String bcontent;    // 내용
     private int bview;              // 조회수
     private int blike;              // 좋아요 수
+
     // 작성자 [ 연관관계 ]
     @ManyToOne
     @JoinColumn(name = "mno")
