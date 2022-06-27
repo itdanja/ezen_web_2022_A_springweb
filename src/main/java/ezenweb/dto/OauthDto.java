@@ -54,7 +54,6 @@ public class OauthDto { // oauth 회원 정보 담고 있는 dto
                 .nameAttributeKey( nameAttributeKey )
                 .build();
     }
-
     // oauth 정보 -> entity 변경
     public MemberEntity toentity() {
         return MemberEntity.builder()

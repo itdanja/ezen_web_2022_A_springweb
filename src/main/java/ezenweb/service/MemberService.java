@@ -62,8 +62,13 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
 
         System.out.println( "oauthDto 확인 : " + oauthDto.toString() );
 
-        // db 저장
-        memberRepository.save( oauthDto.toentity() );  // dto -> entity
+        //  1. 이메일로 엔티티호출
+        Optional<MemberEntity> optional
+                =  memberRepository.findBymemail( oauthDto.getMemail() );
+        // 2. 만약에 엔티티가 없으면
+        if( !optional.isPresent() ){
+            memberRepository.save( oauthDto.toentity() );  // entity 저장
+        }
 
         // 반환타입 DefaultOAuth2User ( 권한(role)명 , 회원인증정보 , 회원정보 호출키 )
             // DefaultOAuth2User , UserDetails : 반환시 인증세션 자동 부여 [ SimpleGrantedAuthority : (권한) 필수~  ]
