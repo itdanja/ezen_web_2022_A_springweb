@@ -4,6 +4,7 @@ import ezenweb.domain.member.MemberEntity;
 import ezenweb.domain.member.MemberRepository;
 import ezenweb.dto.LoginDto;
 import ezenweb.dto.MemberDto;
+import ezenweb.dto.OauthDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,11 +52,18 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName();
 
+        // 확인
         System.out.println(  "클라이언트(개발자)가 등록 이름 :   " + registrationId   );
         System.out.println(  "회원 정보(JSON) 호출시 사용되는 키 이름 :   " + userNameAttributeName   );
         System.out.println(  "회원 인증(로그인) 결과 내용  : " + oAuth2User.getAttributes() );
 
         // oauth2 정보 -> Dto -> entitiy -> db저장
+        OauthDto oauthDto = OauthDto.of(  registrationId ,  userNameAttributeName  ,  oAuth2User.getAttributes()  );
+
+        System.out.println( "oauthDto 확인 : " + oauthDto.toString() );
+
+        // db 저장
+        memberRepository.save( oauthDto.toentity() );  // dto -> entity
 
         // 반환타입 DefaultOAuth2User ( 권한(role)명 , 회원인증정보 , 회원정보 호출키 )
             // DefaultOAuth2User , UserDetails : 반환시 인증세션 자동 부여 [ SimpleGrantedAuthority : (권한) 필수~  ]
