@@ -22,7 +22,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'           // 스프링부트 웹
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // 스프링부트 웹 테스트
-
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 라이브러리
     runtimeOnly 'com.h2database:h2' // H2 라이브러리 [ H2: 관계형 데이터베이스  = 인메모리]
     runtimeOnly 'mysql:mysql-connector-java'    // mysql 라이브러리
@@ -32,10 +31,9 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20220320' // JSON 라이브러리
 //    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8' //  Dto -> entitiy // entitiy->Dto
     implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링 시큐리티 [ 보안관련 클래스 / 메소드 제공 ]
-
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'   // 타임리프에서 인증객체 사용
-
     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'   // 타임리프에서 인증객체 사용
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // Oauth2 [ 소셜 로그인 기능 ]
 }
 
 tasks.named('test') {
