@@ -59,9 +59,9 @@ public class BoardService {
         String mid = null;
         if( principal instanceof UserDetails ){ // 인증정보의 타입이 UserDetails 이면 [ 일반회원 검증 ]
             mid = ((UserDetails) principal).getUsername(); // 인증정보에서 mid 호출
-            System.out.println("일반 회원으로 글쓰기~~~~  " + principal.toString() );
+            //System.out.println("일반 회원으로 글쓰기~~~~  " + principal.toString() );
         }else if( principal instanceof DefaultOAuth2User ){ // 인증정보의 타입이 DefaultOAuth2User 이면 [ oauth2회원 검증 ]
-            System.out.println("oauth2 회원으로 글쓰기~~~~  " + principal.toString() );
+            //System.out.println("oauth2 회원으로 글쓰기~~~~  " + principal.toString() );
             Map<String , Object>  map =  ((DefaultOAuth2User) principal).getAttributes();
             // 회원정보 요청키를 이용한 구분 짓기
             if( map.get("response") != null ){   // 1. 네이버 일경우  [ Attributes 에 response 이라는 키가 존재하면 ]
