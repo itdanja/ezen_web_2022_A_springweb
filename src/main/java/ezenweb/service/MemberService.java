@@ -10,6 +10,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +24,37 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MemberService implements UserDetailsService {
+public class MemberService implements UserDetailsService , OAuth2UserService<OAuth2UserRequest , OAuth2User> {
+                                            // UserDetailsService 인터페이스 [ 추상메소드 존재~~ ] : 일반 회원
+                                                    // -----> loadUserByUsername 메소드 구현
+                                            // OAuth2UserService<OAuth2UserRequest , OAuth2User> : Oauth2 회원
+                                                    // ------> loadUser 메소드 구현
 
-                                            // UserDetailsService 인터페이스 [ 추상메소드 존재~~ ]
+    //  *  oauth2 서비스 제공 메소드
+    // OAuth2UserRequest : 인증 결과를 호출 클래스
+    @Override
+    public OAuth2User loadUser( OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
+        // 인증[로그인] 결과 정보 요청
+        OAuth2UserService oAuth2UserService = new DefaultOAuth2UserService();
+        OAuth2User oAuth2User = oAuth2UserService.loadUser( userRequest );
+
+        // 클라이언트 아이디 [ 네이버 vs 카카오 vs 구글 ] : oauth 구분용 으로 사용할 변수
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+
+        // 회원정보 요청시 사용되는 JSON 키 이름 호출  : 회원정보 호출시 사용되는 키 이름
+        String userNameAttributeName = userRequest
+                .getClientRegistration()
+                .getProviderDetails()
+                .getUserInfoEndpoint()
+                .getUserNameAttributeName();
+
+        System.out.println(  "클라이언트(개발자)가 등록 이름 :   " + registrationId   );
+        System.out.println(  "회원 정보(JSON) 호출시 사용되는 키 이름 :   " + userNameAttributeName   );
+        System.out.println(  "회원 인증(로그인) 결과 내용  : " + oAuth2User.getAttributes() );
+
+        return null; // 인증 세션
+    }
 
     // * 로그인 서비스 제공 메소드
     // 1. 패스워드 검증 X [ 시큐리티 제공 ]

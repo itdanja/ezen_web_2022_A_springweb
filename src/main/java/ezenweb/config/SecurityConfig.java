@@ -44,7 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers("/member/signup")
                 .and()
                 .exceptionHandling() // 오류페이지 발생시 시큐리티 페이지 전환
-                .accessDeniedPage("/error");
+                .accessDeniedPage("/error")
+                .and()
+                .oauth2Login() // oauth2 관련 설정
+                .userInfoEndpoint() // 유저 정보가 들어오는 위치
+                .userService( memberService );  // 해당 서비스 클래스 로 유저 정보 받는다~
 //        super.configure(http); // 슈퍼클래스의 기본 설정으로 사용
 
     } // configure 메소드 end
