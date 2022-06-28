@@ -28,10 +28,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin() // 로그인페이지 보안 설정
                 .loginPage("/member/login") // 아이디 / 비밀번호를 입력받을 페이지 URL
-                .loginProcessingUrl("/member/logincontroller") // 로그일 처리할 URL 정의
+                .loginProcessingUrl("/member/logincontroller") // 로그일 처리할 URL 정의 -> loadUserByUsername
                 .defaultSuccessUrl("/")// 로그인 성공시 이동할 URL
                 .usernameParameter("mid") // 로그인시 아이디로 입력받을 변수명 [ 기본값 : user -> mid ]
                 .passwordParameter("mpassword")// 로그인시 비밀번호로 입력받을 변수명[ 기본값 : password -> mpassword ]
+                .failureUrl("/member/login/error")
                 // usernameParameter,passwordParameter   => 변수 name 필드명
                 .and()
                 .logout()
@@ -49,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login() // oauth2 관련 설정
                 .userInfoEndpoint() // 유저 정보가 들어오는 위치
-                .userService( memberService );  // 해당 서비스 클래스 로 유저 정보 받는다~
-//        super.configure(http); // 슈퍼클래스의 기본 설정으로 사용
+                .userService( memberService );  // 해당 서비스 클래스 로 유저 정보 받는다~ [ loadUser 재정의 ]
+        //super.configure(http); // 슈퍼클래스의 기본 설정으로 사용
 
     } // configure 메소드 end
 
@@ -60,9 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MemberService memberService;  // 회원관련 서비스
     // 2.
     @Override // 인증(로그인) 관리 메소드
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService( memberService ).passwordEncoder( new BCryptPasswordEncoder() );
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService( memberService ).passwordEncoder( new BCryptPasswordEncoder() ); // [ loadUserByUsername 재정의 ]
                 // 인증할 서비스객체                    -> 패스워드 인코딩(   BCrypt 객체로  )
-//        super.configure(auth); // 기본값
+         // super.configure(auth); // 기본값
     }
 }
