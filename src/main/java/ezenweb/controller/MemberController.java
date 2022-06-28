@@ -18,7 +18,19 @@ public class MemberController {
     // 1. 로그인 페이지 이동 매핑
     @GetMapping("/login")
     public String login( ){
-        return "/member/login";
+        return "member/login";
+    }
+
+    // 회원이 이메일받았을때 검증버튼을 누르면 들어오는 매핑
+    @GetMapping("/email/{authkey}/{mid}")
+    public String signupemail( @PathVariable("authkey") String authkey ,
+                               @PathVariable("mid") String mid){
+        // @PathVariable : 경로상(URL) 변수 요청
+
+        // 이메일 검증 처리
+        memberService.authsuccess( authkey , mid );
+        // 화면 전환
+        return "member/authsuccess";
     }
 
     // 시큐리티 사용시에는 시큐리티내 로그인 서비스 사용
