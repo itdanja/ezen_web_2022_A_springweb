@@ -15,9 +15,9 @@ public class MemberDto {
     // 필드
     private int mno;
     private String mid;
-    private String mpasswrd;
+    private String mpassword;
     private String mname;
-
+    private String memail;
     // DTO -> ENTITY
     public MemberEntity toentitiy(){
         // 패스워드 암호화
@@ -28,11 +28,11 @@ public class MemberDto {
 
         return MemberEntity.builder() // 빌더패턴 : 포함하지 않는 필드는 0 또는 null 자동 대입
                 .mid( this.mid)
-                .mpassword(   passwordEncoder.encode(  this.mpasswrd ) )
+                .mpassword(   passwordEncoder.encode(  this.mpassword ) )
                 .mname(this.mname)
+                .memail( this.memail)
                 .roomEntityList( new ArrayList<>() )
-                // 권한부여
-                .role( Role.MEMBER )
+                .role( Role.MEMBER ) // 권한부여
                 .build();
     }
 }

@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: 'yg-jalnan';
+}
+
+body{
+    background-image: url('/img/signup_bg.jpg'); /* 배경 이미지*/
+}
+.signupbox{
+    background-color: white; /*배경색*/
+    margin-top: 15%; /* 바깥여백 */
+    border-radius: 15px; /*둥근 모서리*/
+    box-shadow: 5px 5px 5px 5px gray; /*그림자*/
+    opacity: 0.9;       /* 투명도*/
+}
+.signupbtn{
+    background-color: #042940 !important; /*부트스트랩 충돌시 우선 설정 */
+    color:white !important;
+}
+.naverbtn{
+    background-color: green !important; /*부트스트랩 충돌시 우선 설정 */
+    color:white !important;
+}
+
+.kakaobtn{
+    background-color: yellow !important; /*부트스트랩 충돌시 우선 설정 */
+    color:black !important;
+}
+
+
+

@@ -6,6 +6,7 @@ import ezenweb.dto.LoginDto;
 import ezenweb.dto.MemberDto;
 import ezenweb.dto.OauthDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.mail.javamail.JavaMailSender;    // 자바 메일 전송 인터페이스
+
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -155,6 +159,8 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
 //    }
 //
 
+    @Autowired
+    private JavaMailSender javaMailSender;      // 자바 메일 전송 인터페이스
 
     // 2. 회원가입처리 메소드
     public boolean signup(  MemberDto memberDto){
@@ -164,9 +170,30 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         memberRepository.save( memberEntity );
         // 저장여부 판단
         if( memberEntity.getMno() < 1 ){
-            return false;
+
+            return false; // 회원가입 실패
         }else{
-            return true;
+
+            try {   // 이메일 전송
+                MimeMessage message = javaMailSender.createMimeMessage();
+                // 0. Mime 설정
+                MimeMessageHelper mimeMessageHelper
+                        = new MimeMessageHelper( message , true, "utf-8"); // 예외처리 발생
+                // 1. 보내는사람
+                mimeMessageHelper.setFrom("kgs2072@naver.com" , "Ezen 부동산");
+                // 2. 받는 사람
+                mimeMessageHelper.setTo("itdanja@kakao.com");
+                // 3. 메일 제목
+                mimeMessageHelper.setSubject("Ezen 부동산 회원가입 확인");
+                // 4. 메일 내용
+                mimeMessageHelper.setText("<a href='#'> 회원가입 이메일 검증 </a>" , true);
+                // 5. 메일 전송
+                javaMailSender.send(  message );
+
+            }catch( Exception e  ){
+                System.out.println("메일전송 실패 : "+ e );
+            }
+            return true; // 회원가입 성공
         }
     }
 
