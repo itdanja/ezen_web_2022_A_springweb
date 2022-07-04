@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Controller
+@Controller // 템플릿영역 --> 반환(return) 은 템플릿만 가능하다..
 @RequestMapping("/board")
 public class BoardController {
     @Autowired

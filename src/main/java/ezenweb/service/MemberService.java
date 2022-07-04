@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -262,7 +263,45 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         }
         return false;
     }
-
+    // 6. 아이디찾기 [ 이름과 이메일이 동일한 경우 프론트엔드에 표시  ]
+    public String idfind( String mname , String memail ){
+        String idfind = null;
+        // 로직
+        Optional<MemberEntity> optional =  memberRepository.findid( mname , memail );
+        if( optional.isPresent() ){
+            idfind = optional.get().getMid();
+        }
+        return idfind;
+    }
+    // 7. 패스워드찾기 [ 아이디와 이메일이 동일한 경우 이메일로 임시 비밀번호(난수)전송
+    @Transactional
+    public boolean pwfind( String mid , String memail ) {
+        Optional<MemberEntity> optional = memberRepository.findpw( mid , memail );
+        if( optional.isPresent() ){ // 해당 엔티티를 찾았으면
+            // 1. 임시비밀번호 난수 생성한다.
+            String tempassword = "";         //            StringBuilder temppassword = new StringBuilder();
+            for( int i = 0 ; i<12 ; i++ ) {
+                Random random = new Random();
+                char rchar = (char) (random.nextInt(58) + 65);
+                tempassword += rchar;  //                temppassword.append( rchar );
+            }
+            System.out.println("임시비밀번호 : " + tempassword );
+            // 2. 현재 비밀번호를 임시비밀번호로 변경한다.
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();   // 비크립트 방식의 암호화
+            optional.get().setMpassword( passwordEncoder.encode( tempassword) ); // 암호화
+            // 3. 변경된 비밀번호를 이메일로 전송한다.
+            StringBuilder html = new StringBuilder();    // 메일 내용 구현
+                html.append("<html><body>");        // html 시작
+                html.append("<div>회원님의 임시 비밀번호</div>");
+                html.append("<div>"+ tempassword + "</div>");
+                html.append("</body></html>");        //html 끝
+                // 메일 전송 메소드 호출
+                mailsend( optional.get().getMemail(),  "EZEN부동산 회원 임시 비밀번호" ,  html );
+            return true;
+        }
+        // 해당 엔티티를 못찾았으면
+        return false;
+    }
 
 }
 

@@ -15,6 +15,29 @@ public class MemberController {
     @Autowired
     MemberService memberService;  // member 서비스 객체 선언
 
+    // 아이디/비밀번호 찾기 페이지 이동 패핑
+    @GetMapping("/find")
+    public String find(){ return "member/find"; }
+
+    // 아이디 찾기 ( oauth2 회원 제공X )
+    @GetMapping("/idfind")
+    @ResponseBody
+    public String idfind( @RequestParam("mname") String mname ,
+                          @RequestParam("memail") String memail){
+        String idfind =  memberService.idfind( mname , memail );
+        return idfind;
+    }
+    @GetMapping("/pwfind")
+    @ResponseBody
+    public Boolean pwfind( @RequestParam("mid") String mid ,
+                          @RequestParam("memail") String memail){
+        Boolean result =  memberService.pwfind( mid , memail );
+        return result;
+        // 기본자료형 vs 클래스명
+        //   int            vs  Integer     사용용도는 동일하다.. 차이( 메소드 차이 )
+    }
+
+
     // 1. 로그인 페이지 이동 매핑
     @GetMapping("/login")
     public String login( ){

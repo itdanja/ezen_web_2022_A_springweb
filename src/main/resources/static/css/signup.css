@@ -26,11 +26,12 @@ body{
 .naverbtn{
     background-color: green !important; /*부트스트랩 충돌시 우선 설정 */
     color:white !important;
+    font-size : 8px;
 }
 
 .kakaobtn{
     background-color: yellow !important; /*부트스트랩 충돌시 우선 설정 */
-    color:black !important;
+                             color:black !important;
 }
 
 
