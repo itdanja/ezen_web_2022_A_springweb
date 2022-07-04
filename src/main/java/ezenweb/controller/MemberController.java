@@ -4,6 +4,7 @@ import ezenweb.dto.HelloDto;
 import ezenweb.dto.MemberDto;
 import ezenweb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,14 @@ public class MemberController {
 
     @Autowired
     MemberService memberService;  // member 서비스 객체 선언
+
+    // 이메일인증여부 확인
+    @GetMapping("/authmailcheck")
+    @ResponseBody
+    public int authmailcheck(@RequestParam("mid") String mid ){
+        int reulst = memberService.authmailcheck( mid );
+        return reulst;
+    }
 
     // 아이디/비밀번호 찾기 페이지 이동 패핑
     @GetMapping("/find")
