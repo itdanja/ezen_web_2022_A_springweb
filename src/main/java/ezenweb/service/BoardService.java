@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.Entity;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -309,8 +310,30 @@ public class BoardService {
        return null;
     }
     // 2. 부동산 관련 뉴스 크롤링
-    public  void getnews(){
+    public  JSONArray getnews(){
+        String url = "https://realestate.daum.net/news/all"; // 1.
+        Connection connect =  Jsoup.connect(url); // 2.
+        try {
+            Document document =  connect.get(); // 3.
+            Elements elements =  document.getElementsByClass("list_live"); // 4.
+            Elements tags =  elements.first().getElementsByTag("li"); // 5.
 
+            JSONArray jsonArray = new JSONArray();
+
+            for( int i = 0 ; i<6 ; i++ ){
+                JSONObject object = new JSONObject();
+                String 내용 = tags.get(i).getElementsByClass("cont").first().text();
+                String 사진 = tags.get(i).getElementsByClass("frame_thumb").attr("src");
+                String 링크 = tags.get(i).getElementsByClass("link_thumb").attr("href");
+                object.put("내용" , 내용);
+                object.put("사진" , 사진);
+                object.put("링크" , "https://realestate.daum.net"+링크);
+                jsonArray.put( object );
+            }
+            return jsonArray;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     // 3. 부동산 시세 크롤링
     public  void getvalue(){
