@@ -34,6 +34,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'   // 타임리프에서 인증객체 사용
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // Oauth2 [ 소셜 로그인 기능 ]
     implementation 'org.springframework.boot:spring-boot-starter-mail' // SMTP 이메일 라이브러리
+    implementation 'org.jsoup:jsoup:1.15.2' // jsoup : HTML 파싱 라이브러리( 크롤링 )
 }
 
 tasks.named('test') {

@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers("/member/logincontroller")
                 .ignoringAntMatchers("/member/signup")
                 .ignoringAntMatchers("/board/save")
+                .ignoringAntMatchers("/room/write")
                 .and()
                 .exceptionHandling() // 오류페이지 발생시 시큐리티 페이지 전환
                 .accessDeniedPage("/error")

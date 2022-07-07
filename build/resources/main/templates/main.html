@@ -1,25 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
+    <link rel="stylesheet" href="/css/main.css">
+
 <body>
+
 
     <div th:replace="header.html :: header"></div>
 
-        <p> @ResponseBody </p>
-        <p> @RestController </p>
-        <p th:text="${data}"></p>
-        <p th:text="${data.name}"></p>
-        <p th:text="${data.amount}"></p>
+        <div class="mian_img">
+            <div class="main_img_title">
+                <span>E</span>
+                <span>z</span>
+                <span>e</span>
+                <span>n</span>
+                <span>부</span>
+                <span>동</span>
+                <span>산</span>
+                <div class="img_title"> 전국 최대 부동산 직거래</div>
+            </div>
+        </div>
 
-        <p> 인증 세션 확인 </p>
-        <!-- 타임리프에서 인증 세션 호출를 위한 라이브러리  필요 -->
-            <!-- 인증 객체 호출 -->
-        <p th:text="${#authentication.principal}"></p>
-            <!-- 인증 객체의 이름  -->
-        <p th:text="${#authentication.name}"></p>
-            <!-- 인증된 권한[Role] 확인 -->
-        <p th:text ="${#authentication.authorities}"> </p>
+    <div class="container">
+        <h5> 최근에 등록된 매물 </h5>
+        <h5> 최근에 거래된 매물 </h5>
+        <h5> 가장 인기있는 매물 </h5>
+        <h5> 부동산 최신 뉴스 </h5>
+        <div class="newsbox">
+
+        </div>
+    </div>
 
     <div th:replace="footer.html :: footer"></div>
 
 </body>
 </html>
+
+<!--<p> @ResponseBody </p>-->
+<!--<p> @RestController </p>-->
+<!--<p th:text="${data}"></p>-->
+<!--<p th:text="${data.name}"></p>-->
+<!--<p th:text="${data.amount}"></p>-->
+
+<!--<p> 인증 세션 확인 </p>-->
+<!--&lt;!&ndash; 타임리프에서 인증 세션 호출를 위한 라이브러리  필요 &ndash;&gt;-->
+<!--&lt;!&ndash; 인증 객체 호출 &ndash;&gt;-->
+<!--<p th:text="${#authentication.principal}"></p>-->
+<!--&lt;!&ndash; 인증 객체의 이름  &ndash;&gt;-->
+<!--<p th:text="${#authentication.name}"></p>-->
+<!--&lt;!&ndash; 인증된 권한[Role] 확인 &ndash;&gt;-->
+<!--<p th:text ="${#authentication.authorities}"> </p>-->

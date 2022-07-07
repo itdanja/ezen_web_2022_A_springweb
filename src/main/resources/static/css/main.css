@@ -1,0 +1,45 @@
+.mian_img{
+    width:100%;
+    height:1000px;
+    background-image: url('/img/signup_bg.jpg'); /* 배경 이미지*/
+}
+.main_img_title{
+    position:absolute; /* 상위태그 기준으로 위치 변경 */
+    top:40%;
+    right: 10%;
+}
+.img_title{
+    color: white;
+    font-size: 5vw; /* viewport width*/
+}
+.main_img_title span{
+    color: white;
+    font-size: 4vw;
+    display: inline-block;
+    margin : 0 auto;
+    animation: main_img_title .7s infinite alternate;
+    /*  animation : 애니메이션 */
+    /*          animation : 클래스명 시간단위 infinite : 무한반복 alternate: 앞으로 재생되면서 사이클의 방향을 반대로 */
+}
+
+/* 클래스내 span 호출*/
+.main_img_title span:nth-child(2){ animation-delay : .1s }
+.main_img_title span:nth-child(3){ animation-delay : .2s }
+.main_img_title span:nth-child(4){ animation-delay : .3s }
+.main_img_title span:nth-child(5){ animation-delay : .4s }
+.main_img_title span:nth-child(6){ animation-delay : .5s }
+.main_img_title span:nth-child(7){ animation-delay : .6s }
+
+/* @ CSS 오브젝트 인터페이스 */
+/* @Keyframes : 애니메이션과 중간의 특정 지점 제어 설정 */
+@Keyframes main_img_title{
+    /* translate : 좌표 이동 */
+    0% , 100%{ transform : translateY(0); }
+    50%{ transform : translateY(15px); }
+    /* scale : 확대 축소 */
+/*    0%{ transform : scale(1); }
+    100%{ transform : scale(0.8); }*/
+    /* blur : 흐림도    opacity : 투명도 */
+/*     0%{ filter : blur(0); opacity : 1; }
+     100%{ filter : blur(5px); opacity : 0.2; }*/
+}
