@@ -8,3 +8,8 @@
 *{
     font-family: 'yg-jalnan';
 }
+#contentbox{
+    height : 80vh; /*  viewport height */
+    overflow: scroll; /* 내용물이 넘쳤을때 스크롤 사용 */
+}
+
