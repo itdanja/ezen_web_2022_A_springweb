@@ -67,7 +67,6 @@ $(document).ready( function(){
         $("#contentbox").scrollTop(  $("#contentbox")[0].scrollHeight );
                 // $("#contentbox")[0].scrollHeight : 스크롤의 전체길이
                 //  $("#contentbox").scrollTop( ) : 스크롤의 막대의 상단 위치
-
     }
 });
 

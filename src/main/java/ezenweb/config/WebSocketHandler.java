@@ -18,13 +18,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private static List<WebSocketSession> list = new ArrayList<>();
     @Override // 1. 웹소켓과 연결 되었을때 메소드 재정의
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("서버로 접속했습니다 : " + session );
         // 2. 웹소켓과 접속시 리스트에 접속된 세션 담기
         list.add( session );
     }
     @Override // 2. 웹소켓과 연결이 종료 되었을때 메소드 재정의
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("서버에서 나갔습니다. : " + session );
         // 3. 웹소켓과 접속이 종료되었을때 종료된 세션 지우기
         list.remove( session );
     }
