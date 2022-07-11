@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // Oauth2 [ 소셜 로그인 기능 ]
     implementation 'org.springframework.boot:spring-boot-starter-mail' // SMTP 이메일 라이브러리
     implementation 'org.jsoup:jsoup:1.15.2' // jsoup : HTML 파싱 라이브러리( 크롤링 )
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' // 웹소켓
 }
 
 tasks.named('test') {

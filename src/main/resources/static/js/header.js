@@ -22,7 +22,8 @@ $(document).ready( function(){
             send();
       });
     // 2. JS에서 제공하는 websocket 클래스로 websocket 객체 선언
-        // 1. [ /ws/chat ] 해당 URL 로 소켓 연결
+        // 1. [ /ws/chat ] 해당 ( spring :  webSocketHandler path )URL 로 소켓 연결
+        // 2. 현재 js가 새로고침[F5] 되면 소켓도 초기화
     let websocket = new WebSocket("ws://localhost:8081/ws/chat");
     websocket.onmessage = onMessage;    // 아래에서 구현한 메소드를 웹소켓 객체에 대입
     websocket.onopen = onOpen;              // 아래에서 구현한 메소드를 웹소켓 객체에 대입
