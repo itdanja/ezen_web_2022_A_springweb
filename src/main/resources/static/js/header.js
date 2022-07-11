@@ -41,10 +41,34 @@ $(document).ready( function(){
         let msg = $("#msg").val();  // 채팅 입력창에 입력한 데이터 호출
         websocket.send( username+":"+msg);
         $("#msg").val("");
-         alert(username+":"+msg);
     }
     // 6. 메시지를 받았을때
-    function onMessage( ) { }
+    function onMessage( msg ) {
+        let data = msg.data; // 받은 메시지의 내용
+        let sessionid = data.split(":")[0]; // 보낸사람
+        let message = data.split(":")[1]; // 메시지내용
+
+        let html = "";
+        // 1. 본인 보낸 메시지 이면
+        if( sessionid == username ){
+            html += ' <div class="alert alert-primary">';
+            html += ' <span>'+sessionid+":"+message;
+            html += '</span> ';
+            html += ' </div>';
+
+        }else{ // 본인 보낸 메시지가 아니면
+            html += ' <div class="alert alert-warning">';
+            html += ' <span>'+sessionid+":"+message;
+            html += '</span> ';
+            html += ' </div>';
+        }
+        $("#contentbox").append(html); // html 추가
+        // 스크롤 최하단으로 이동
+        $("#contentbox").scrollTop(  $("#contentbox")[0].scrollHeight );
+                // $("#contentbox")[0].scrollHeight : 스크롤의 전체길이
+                //  $("#contentbox").scrollTop( ) : 스크롤의 막대의 상단 위치
+
+    }
 });
 
 
