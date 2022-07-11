@@ -21,6 +21,8 @@
         </a>
         <ul class="nav">
             <!-- 모든 권한에 보이는 메뉴 -->
+            <li class="nav-item"> <a class="nav-link text-dark" type="button"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"> 채팅 </a> </li>
+
             <li class="nav-item"> <a class="nav-link text-dark" href="/room/list"> 방 찾기 </a>  </li>
             <li class="nav-item"> <a class="nav-link text-dark" href="/board/list"> 커뮤니티 </a> </li>
             <!-- 권한이 없으면 보이는 메뉴 -->
@@ -34,6 +36,28 @@
             <li sec:authorize="hasRole('ADMIN')" class="nav-item"> <a class="nav-link text-dark" href ="/"> 관리자모드 </a> </li>
         </ul>
     </header>
+
+    <!-- 채팅방 사이드바 [ 오프캔버스 ] -->
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel"> 자유 채팅방 </h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <div id="contentbox"> <!-- 채팅내용 출력 box -->
+            </div>
+
+            <div>
+                <input type="text" id="msg"> <!-- 채팅내용 입력 input -->
+                <button id="msgbtn">전송</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
 
     <!-- 부트스트랩 js  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
