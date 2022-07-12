@@ -42,7 +42,7 @@
 
     // 6. 마커 이미지 변경
                 // 마커 이미지의 주소
-                var markerImageUrl = 'http://192.168.17.96:8081/img/icon_home.png',
+                var markerImageUrl = 'http://localhost:8081/img/icon_home.png',
                     markerImageSize = new kakao.maps.Size(40, 40), // 마커 이미지의 크기
                     markerImageOptions = {
                         offset : new kakao.maps.Point(20, 42)// 마커 좌표에 일치시킬 이미지 안의 좌표
@@ -151,6 +151,7 @@ function getroom( rno ) {
                                             '</div>';
                                  }
                             }
+                            $("#roommid").val( room.mid  );
                             $("#modalimglist").html( imgtag );
                             // 모달 띄우기
                             $("#modalbtn").click();
