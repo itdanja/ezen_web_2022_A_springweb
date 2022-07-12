@@ -2,9 +2,12 @@ package ezenweb.service;
 
 import ezenweb.domain.member.MemberEntity;
 import ezenweb.domain.member.MemberRepository;
+import ezenweb.domain.message.MessageEntity;
+import ezenweb.domain.message.MessageRepository;
 import ezenweb.dto.LoginDto;
 import ezenweb.dto.MemberDto;
 import ezenweb.dto.OauthDto;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -325,6 +328,42 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         }
         return 0;
     }
+
+
+    //----------- 메시지 ---------------------------------------------------
+    // 1. 메시지 전송 메소드
+    @Autowired
+    private MessageRepository messageRepository;
+    @Transactional
+    public boolean messagesend(JSONObject object){
+        // 1. JSON 정보 호출
+        String from = (String) object.get("from");
+        String to = (String) object.get("to");
+        String msg = (String) object.get("msg");
+        // 2. 각 회원들의 엔티티 찾기
+            // 1. 보낸사람의 엔티티
+        MemberEntity fromentity = null;
+        Optional<MemberEntity> optionalMemberEntity1 = memberRepository.findBymid( from );
+        if( optionalMemberEntity1.isPresent() ){ fromentity = optionalMemberEntity1.get(); }
+        else{ return false; }
+            // 2. 받는사람의 엔티티
+        MemberEntity toentity = null;
+        Optional<MemberEntity> optionalMemberEntity2 = memberRepository.findBymid(to);
+        if( optionalMemberEntity2.isPresent() ){ toentity = optionalMemberEntity2.get(); }
+        else{ return false; }
+        // 3. 메시지 엔티티 생성
+        MessageEntity messageEntity
+                = MessageEntity.builder().msg(msg).fromentity(fromentity).toentity(toentity).build();
+        // 4. 메시지 세이브
+        messageRepository.save( messageEntity );
+        // 각 회원에 메시지 fk 주입 [ 수정 ]
+        fromentity.getFromentitylist().add( messageEntity ); // 보낸사람 엔티티의 보낸메시지 리스트에 메시지 저장
+        toentity.getToentitylist().add( messageEntity );        //  받는사람 엔티티의 받은메시지 리스트에 메시지 저장
+        return  true;
+    }
+    // 2. 안읽은 메시지 개수 메소드
+
+    // ------------------------------------------------------------------------
 
 }
 

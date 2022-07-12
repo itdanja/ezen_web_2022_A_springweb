@@ -2,6 +2,7 @@ package ezenweb.domain.member;
 
 import ezenweb.domain.BaseTime;
 import ezenweb.domain.board.BoardEntity;
+import ezenweb.domain.message.MessageEntity;
 import ezenweb.domain.room.RoomEntity;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -43,6 +44,14 @@ public class MemberEntity extends BaseTime {
     @OneToMany( mappedBy ="memberEntity" , cascade = CascadeType.ALL)  // 1:M
     List<BoardEntity> boardEntityList = new ArrayList<>();
 
+    // 보낸 메시지 리스트
+    @Builder.Default    // 빌더 사용시 초기값 설정
+    @OneToMany( mappedBy ="fromentity" , cascade = CascadeType.ALL)  // 1:M
+    List<MessageEntity> fromentitylist = new ArrayList<>();
+    // 받은 메시지 리스트
+    @Builder.Default    // 빌더 사용시 초기값 설정
+    @OneToMany( mappedBy ="toentity" , cascade = CascadeType.ALL)  // 1:M
+     List<MessageEntity> toentitylist = new ArrayList<>();
 }
 
 

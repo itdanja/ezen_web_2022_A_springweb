@@ -26,9 +26,8 @@
             <li class="nav-item"> <a class="nav-link text-dark" href="/room/list"> 방 찾기 </a>  </li>
             <li class="nav-item"> <a class="nav-link text-dark" href="/board/list"> 커뮤니티 </a> </li>
 
-            <p th:text="${#authentication.principal}"></p> <!-- 인증정보 객체 -->
-            <p sec:authentication="name"></p>
 
+            <span id="loginmidbox" sec:authentication="name"></span>
 
             <!-- 권한이 없으면 보이는 메뉴 -->
             <li sec:authorize="isAnonymous()" class="nav-item"> <a class="nav-link text-dark" href="/member/signup"> 회원가입 </a> </li>

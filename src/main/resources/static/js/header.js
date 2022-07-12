@@ -11,6 +11,37 @@ function getweather(){
     });
 }
 
+
+// 쪽지 메소드
+$(document).ready( function(){
+
+    let mid =  $("#loginmidbox").html();
+    if( mid == 'anonymousUser' ){
+        return;
+    }
+    // 1. js 웹소켓 객체 생성                      // 세션 만으로 회원 구분 X ---> 경로에 회원아이디 추가
+    let msgwebsocket = new WebSocket("ws://localhost:8081/ws/message/"+mid);
+    // 2. 웹소켓객체에 구현된 메소드 저장한다.
+    msgwebsocket.onopen = onOpen2;
+    msgwebsocket.onclose = onClose2;
+    msgwebsocket.onmessage = onMessage2;
+    // 3. 각 메소드 구현  [ open close onMessage ]
+    function onOpen2(){ alert("들어왔다.");  }
+    function onClose2(){ alert("나갔다."); }
+    function onMessage2(){ alert("메시지왔다."); }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 // 채팅 메소드 - js 열리면 실행되는 메소드
 $(document).ready( function(){
     // 1. 익명 닉네임 난수 만들기
