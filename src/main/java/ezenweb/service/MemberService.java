@@ -7,8 +7,10 @@ import ezenweb.dto.MemberDto;
 import ezenweb.dto.OauthDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,6 +37,22 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
                                             // OAuth2UserService<OAuth2UserRequest , OAuth2User> : Oauth2 회원
                                                     // ------> loadUser 메소드 구현
 
+    // 로그인(인증)된 회원의 아이디 찾기 메소드
+    public String getloginmid(){
+        // 1. 인증 객체 호출
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        // 2. 인정 정보 객체 호출
+        Object principal = authentication.getPrincipal();
+
+        if( principal.equals("anonymousUser") ){ // 로그인X
+            return null;
+        }else{ // 로그인O
+            LoginDto loginDto = (LoginDto) principal;
+            return loginDto.getMid();
+        }
+    }
+
     //  *  oauth2 서비스 제공 메소드
     // OAuth2UserRequest : 인증 결과를 호출 클래스
     @Override
@@ -54,10 +72,10 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName();
 
-        // 확인
-        System.out.println(  "클라이언트(개발자)가 등록 이름 :   " + registrationId   );
-        System.out.println(  "회원 정보(JSON) 호출시 사용되는 키 이름 :   " + userNameAttributeName   );
-        System.out.println(  "회원 인증(로그인) 결과 내용  : " + oAuth2User.getAttributes() );
+//        // 확인
+//        System.out.println(  "클라이언트(개발자)가 등록 이름 :   " + registrationId   );
+//        System.out.println(  "회원 정보(JSON) 호출시 사용되는 키 이름 :   " + userNameAttributeName   );
+//        System.out.println(  "회원 인증(로그인) 결과 내용  : " + oAuth2User.getAttributes() );
 
         // oauth2 정보 -> Dto -> entitiy -> db저장
         OauthDto oauthDto = OauthDto.of(  registrationId ,  userNameAttributeName  ,  oAuth2User.getAttributes()  );
@@ -67,20 +85,19 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         //  1. 이메일로 엔티티호출
         Optional<MemberEntity> optional
                 =  memberRepository.findBymemail( oauthDto.getMemail() );
-        // 2. 만약에 엔티티가 없으면
-        if( !optional.isPresent() ){
-            memberRepository.save( oauthDto.toentity() );  // entity 저장
+
+        MemberEntity memberEntity = null;
+        if( !optional.isPresent() ){  // 2. 만약에 엔티티가 없으면
+            memberEntity = oauthDto.toentity();
+            memberRepository.save( memberEntity );  // entity 저장
+        }else{  // 만약에 엔티티가 존재하면
+            memberEntity = optional.get();
         }
 
-        // 반환타입 DefaultOAuth2User ( 권한(role)명 , 회원인증정보 , 회원정보 호출키 )
-            // DefaultOAuth2User , UserDetails : 반환시 인증세션 자동 부여 [ SimpleGrantedAuthority : (권한) 필수~  ]
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")),
-                oAuth2User.getAttributes() ,
-                userNameAttributeName
-                );
-    }
+        return  new LoginDto(  memberEntity ,
+                Collections.singleton(new SimpleGrantedAuthority(memberEntity.getrolekey())) );
 
+    }
     // * 로그인 서비스 제공 메소드
     // 1. 패스워드 검증 X [ 시큐리티 제공 ]
     // 2. 아이디만 검증 처리
@@ -90,18 +107,9 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         // 1. 회원 아이디로 엔티티 찾기
         Optional<MemberEntity> entityOptional =  memberRepository.findBymid( mid );
         MemberEntity memberEntity = entityOptional.orElse(null);
-                                            // Optional 클래스 [ null 관련 오류 방지 ]
-                                            // 1. optional.isPresent()   : null 아니면
-                                            // 2. optional.orElse() : 만약에 optional객체가 비어있으면 반환할 데이터
-        // 2. 찾은 회원엔티티의 권한[키] 을 리스트에 담기
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-                //GrantedAuthority : 부여된 인증의 클래스
-                //   List<GrantedAuthority> : 부여된 인증들을 모아두기
 
-        authorityList.add(    new SimpleGrantedAuthority( memberEntity.getrolekey() ) );
-                // 리스트에 인증된 엔티티의 키를 보관
-        // 세션부여????????????????????   -> UserDetails  -> 인증되면 세션 부여
-        return new LoginDto(  memberEntity , authorityList ); // 회원엔티티 , 인증된 리스트를  인증세션 부여
+        return new LoginDto(  memberEntity ,
+                Collections.singleton(new SimpleGrantedAuthority(memberEntity.getrolekey())) );
     }
 
 

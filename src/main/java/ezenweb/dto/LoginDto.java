@@ -4,20 +4,20 @@ import ezenweb.domain.member.MemberEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
-public class LoginDto implements UserDetails {  // 로그인 세션에 넣을 Dto 생성
+@Setter
+public class LoginDto implements UserDetails , OAuth2User{  // 로그인 세션에 넣을 Dto 생성
                                     // UserDetails -> authorities 필수 필드 선언
     private int mno;        // 회원번호
     private String mid; // 회원아이디
     private String mpassword;// 회원비밀번호
     private String mname; // 회원 이름
     private final Set<GrantedAuthority> authorities;    // 부여된 인증들의 권한
+    private Map<String, Object> attributes ; // oauth 인증된 회원의 정보
 
     public LoginDto( MemberEntity memberEntity , Collection< ? extends GrantedAuthority > authorityList ) {
         this.mno = memberEntity.getMno();
@@ -61,5 +61,14 @@ public class LoginDto implements UserDetails {  // 로그인 세션에 넣을 Dt
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return this.mid;
+    }
+    @Override
+    public Map<String, Object> getAttributes() {
+        return this.attributes;
     }
 }
