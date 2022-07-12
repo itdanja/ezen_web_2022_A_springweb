@@ -31,15 +31,20 @@ public class RoomService {
     private HttpServletRequest request;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private MemberService memberService;
 
     // 1. 룸 저장
     @Transactional  // 트랜잭션
     public boolean room_save(RoomDto roomDto) {
 
-        // 현재 로그인된 세션내 dto 호출
-        LoginDto loginDto  = (LoginDto) request.getSession().getAttribute("login");
+        String mid = memberService.getloginmid();
+
         // 현재 로그인된 회원의 엔티티 찾기
-        MemberEntity memberEntity =  memberRepository.findById( loginDto.getMno() ).get();
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findBymid( mid );
+        MemberEntity memberEntity =  null;
+        if( optionalMemberEntity.isPresent() ){ memberEntity = optionalMemberEntity.get(); }
+        else{ return false; }
 
         // 1.  dto -> entitiy   [ dto는 DB에 저장할수 없으니까~  ]
         RoomEntity roomEntity = roomDto.toentity();             // 1. 객체 생성
@@ -71,7 +76,11 @@ public class RoomService {
 
                 // 2. 경로 설정
                 //        \:제어문자
-                String dir  = "C:\\Users\\505-t\\Desktop\\springweb\\ezen_web_2022_A_springweb\\src\\main\\resources\\static\\upload\\";
+                    // 1. 프로젝트내 이미지 저장 [ 프로젝트내 저장할경우 프로젝트를 다시 빌드 -> 서버 ]
+//                String dir  = "C:\\Users\\505-t\\Desktop\\springweb\\ezen_web_2022_A_springweb\\src\\main\\resources\\static\\upload\\";
+                    // 2. 서버에 이미지 저장 [ 다시 빌드X = 스프링부트는 내장서버이기때문에 = 서버 재시작시 초기화 ]
+                String dir = "C:\\Users\\505-t\\Desktop\\ezen_web_2022_A_springweb\\build\\resources\\main\\static\\upload\\";
+
                 String filepath = dir+uuidfile;
 
                 try {
@@ -189,6 +198,7 @@ public class RoomService {
           JSONObject object = new JSONObject();
                 // 1. json에 엔티티 필드 값 넣기
           object.put("rtitle" , roomEntity.getRtitle() );
+          object.put("mid" , roomEntity.getMemberEntity().getMid() );
 
           JSONArray jsonArray = new JSONArray();
                 // 2. 룸엔티티의 저장된 룸이미지를 반복문을 이용한 룸이미지를 jsonarray에 저장

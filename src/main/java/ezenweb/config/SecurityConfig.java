@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/member/info").hasRole("MEMBER")
                 .antMatchers("/board/save") .hasRole("MEMBER") // 해당 인증 권한 있을경우 = 멤버에 ROLE 필드 있어야함
+                .antMatchers("/room/write").hasRole("MEMBER")
                 .antMatchers( "/**" ).permitAll()//  인증이 없어도 요청 가능   = 모든 접근 허용
                 .and()
                 .formLogin() // 로그인페이지 보안 설정
@@ -41,10 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession( true ) // 세션 초기화
                 .and()
                 .csrf()  // csrf : 사이트 간 요청 위조 [ 해킹 공격 방법중 하나 ] = 서버에게 요청할수 있는 페이지 제한
-                .ignoringAntMatchers("/member/logincontroller")
-                .ignoringAntMatchers("/member/signup")
-                .ignoringAntMatchers("/board/save")
-                .ignoringAntMatchers("/room/write")
+                .ignoringAntMatchers("/member/logincontroller") // 로그인
+                .ignoringAntMatchers("/member/signup") // 회원가입
+                .ignoringAntMatchers("/board/save") // 글작성
+                .ignoringAntMatchers("/room/write") // 방등록
+                .ignoringAntMatchers("/room/roomlist") // 지도에 표시할 데이터 요청/응답
                 .and()
                 .exceptionHandling() // 오류페이지 발생시 시큐리티 페이지 전환
                 .accessDeniedPage("/error")

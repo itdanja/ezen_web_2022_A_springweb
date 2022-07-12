@@ -11,7 +11,6 @@ function getweather(){
     });
 }
 
-
 // 쪽지 메소드
 $(document).ready( function(){
 
@@ -19,6 +18,20 @@ $(document).ready( function(){
     if( mid == 'anonymousUser' ){
         return;
     }
+
+    // 문의하기 버튼을 클릭했을때
+    $("#roommsgbtn").click( function(){
+
+        let from = mid; // 로그인 된 회원 아이디
+        let to = $("#roommid").val(); // 방 등록한 회원 아이디
+        let msg = $("#roommsginput").val();
+        let jsonmsg = {
+            "from" : from ,
+            "to" : to ,
+            "msg" : msg
+        }
+        send(  jsonmsg  );
+    });
     // 1. js 웹소켓 객체 생성                      // 세션 만으로 회원 구분 X ---> 경로에 회원아이디 추가
     let msgwebsocket = new WebSocket("ws://localhost:8081/ws/message/"+mid);
     // 2. 웹소켓객체에 구현된 메소드 저장한다.
@@ -29,12 +42,12 @@ $(document).ready( function(){
     function onOpen2(){ alert("들어왔다.");  }
     function onClose2(){ alert("나갔다."); }
     function onMessage2(){ alert("메시지왔다."); }
+    function send( jsonmsg ){
+        // json형식의 문자열 전송
+        msgwebsocket.send(  JSON.stringify(jsonmsg) );
+    }
+
 });
-
-
-
-
-
 
 
 

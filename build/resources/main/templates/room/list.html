@@ -24,7 +24,7 @@
         Launch demo modal
     </button>
 
-    <!-- Modal -->
+    <!-- 방 클릭했을때 Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -34,6 +34,8 @@
                 </div>
                 <div class="modal-body">
 
+                    <input type="input" id="roommid">
+
                     <!-- 캐러셀 -->
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner" id="modalimglist">
@@ -41,6 +43,12 @@
                                 <!-- 이미지가 표시되는 구역 -->
 
                         </div>
+
+                        <div> <!-- 문의(쪽지) 구역 -->
+                             <input type="text" id="roommsginput">
+                            <button type="type" id="roommsgbtn">문의하기</button>
+                        </div>
+
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
