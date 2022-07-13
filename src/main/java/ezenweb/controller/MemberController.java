@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller // 템플릿 영역
 @RequestMapping("/member")
@@ -165,6 +166,12 @@ public class MemberController {
     @ResponseBody
     public boolean isread( @RequestParam("msgno") int msgno ){
         return memberService.isread( msgno);
+    }
+    @DeleteMapping("/msgdelete") // 5.선택된 메시지 삭제 처리
+    @ResponseBody
+    public boolean msgdelete(
+            @RequestBody List<Integer> deletelist ){
+        return memberService.msgdelete( deletelist );
     }
 
 }

@@ -416,6 +416,18 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         messageRepository.findById( msgno ).get().setIsread(true);
         return true;
     }
+
+    // 선택된 메시지 삭제
+    @Transactional
+    public boolean msgdelete( List<Integer> deletelist ){
+        // 1. 반복문 이용한 모든 엔티티 호출
+        for( int msgno :  deletelist ){
+            MessageEntity entity
+                    = messageRepository.findById( msgno).get();
+            messageRepository.delete( entity );
+        }
+        return true;
+    }
     // ------------------------------------------------------------------------
 
 }
