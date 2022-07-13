@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;    // 자바 메일 전송 인터페이스
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -377,14 +378,13 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         return  count;
     }
 
-    // 1. 본인(로그인) 이 보낸 메시지 리스트
-    public JSONArray getfrommsglist(){
+
+    public JSONArray getfrommsglist(){     // 1. 본인(로그인) 이 보낸 메시지 리스트
         String mid = getloginmid();
         if( mid == null )return null;
         List<MessageEntity> list =
         memberRepository.findBymid( mid ).get().getFromentitylist();
-        // JSON형 변환 [  이유 : JS 사용할려고 ]
-        JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArray = new JSONArray();   // JSON형 변환 [  이유 : JS 사용할려고 ]
         for( MessageEntity msg : list ){
             JSONObject object = new JSONObject();
             object.put("msgno" , msg.getMsgno() );
@@ -392,17 +392,14 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
             object.put("to" , msg.getToentity().getMid() );
             object.put("date" , msg.getCreatedate() );
             jsonArray.put( object );
-        }
-        return jsonArray;
+        }  return jsonArray;
     }
-    // 2. 본인(로그인) 이 받은 메시지 리스트
-    public JSONArray gettomsglist(){
+    public JSONArray gettomsglist(){     // 2. 본인(로그인) 이 받은 메시지 리스트
         String mid = getloginmid();
         if( mid == null )return null;
         List<MessageEntity> list =
                 memberRepository.findBymid( mid ).get().getToentitylist();
-        // JSON형 변환 [  이유 : JS 사용할려고 ]
-        JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArray = new JSONArray(); // JSON형 변환 [  이유 : JS 사용할려고 ]
         for( MessageEntity msg : list ){
             JSONObject object = new JSONObject();
             object.put("msgno" , msg.getMsgno() );
@@ -410,8 +407,12 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
             object.put("from" , msg.getToentity().getMid() );
             object.put("date" , msg.getCreatedate() );
             jsonArray.put( object );
-        }
-        return jsonArray;
+        } return jsonArray;
+    }
+    @Transactional         //      // 읽음처리 메소드[ 수정 ] 해당 메시지번호 엔티티의 읽음여부 수정
+    public boolean isread( int msgno ){
+        messageRepository.findById( msgno ).get().setIsread(true);
+        return true;
     }
     // ------------------------------------------------------------------------
 
