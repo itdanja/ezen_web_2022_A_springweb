@@ -29,6 +29,16 @@
 
             <span id="loginmidbox" sec:authentication="name"></span>
 
+            <!-- 부트스트랩 배지 -->
+            <button type="button" class="btn btn-primary position-relative">
+                쪽지
+                <span id="msgisreadbox" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0+
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </button>
+
+
             <!-- 권한이 없으면 보이는 메뉴 -->
             <li sec:authorize="isAnonymous()" class="nav-item"> <a class="nav-link text-dark" href="/member/signup"> 회원가입 </a> </li>
             <li sec:authorize="isAnonymous()" class="nav-item"> <a class="nav-link text-dark" href="/member/login"> 로그인 </a> </li>

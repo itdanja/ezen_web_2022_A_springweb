@@ -135,6 +135,13 @@ public class MemberController {
         return result;
     }
 
+    /////////////////// 쪽지 ////////////////////////////
+    @GetMapping("/getisread")
+    @ResponseBody
+    public Integer getisread(){
+        return memberService.getisread();
+    }
+
 }
 
 

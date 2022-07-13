@@ -15,6 +15,7 @@ import java.util.Map;
 @Component
 public class MsgWebSocketHandler extends TextWebSocketHandler {
 
+    // 접속된 세션의 리스트 [ 세션 , 회원ID ]
     private Map< WebSocketSession , String > list = new HashMap<>();
 
     @Override
@@ -25,20 +26,16 @@ public class MsgWebSocketHandler extends TextWebSocketHandler {
         // 세션과 아이디 같이 저장
         list.put( session , mid );
     }
-
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("서버소켓으로 나감");
+        list.remove( session );
     }
-
     @Autowired
     private MemberService memberService;
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
-        JSONObject object = new JSONObject( message.getPayload() );
-
+    protected void handleTextMessage( WebSocketSession session, TextMessage message) throws Exception {
+        JSONObject object = new JSONObject( message.getPayload() ); // Payload() : 메시지내용
         // DB 처리
         memberService.messagesend( object );
         // 현재 접속된 세션들중에 받는사람(to) 와 같은경우 소켓 메시지 전달

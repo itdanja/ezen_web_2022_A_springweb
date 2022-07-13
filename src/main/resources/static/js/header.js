@@ -1,6 +1,13 @@
+getisread();
+// 안읽은 쪽지 개수 호출 메소드
+function getisread(){
+    $.ajax({
+        url: '/member/getisread',
+        success : function( object ){ $("#msgisreadbox").html(object+"+"); }
+    });
+}
 
 getweather();
-
 // 날씨 크롤링 메소드
 function getweather(){
     $.ajax({
@@ -32,21 +39,20 @@ $(document).ready( function(){
         }
         send(  jsonmsg  );
     });
-    // 1. js 웹소켓 객체 생성                      // 세션 만으로 회원 구분 X ---> 경로에 회원아이디 추가
+    // 1. js 웹소켓 객체 생성                      // 세션 만으로 회원 구분 X ---> 경로에 회원아이디 추가(식별용)
     let msgwebsocket = new WebSocket("ws://localhost:8081/ws/message/"+mid);
     // 2. 웹소켓객체에 구현된 메소드 저장한다.
     msgwebsocket.onopen = onOpen2;
     msgwebsocket.onclose = onClose2;
     msgwebsocket.onmessage = onMessage2;
     // 3. 각 메소드 구현  [ open close onMessage ]
-    function onOpen2(){ alert("들어왔다.");  }
-    function onClose2(){ alert("나갔다."); }
+    function onOpen2(){  }
+    function onClose2(){ }
     function onMessage2(){ alert("메시지왔다."); }
     function send( jsonmsg ){
         // json형식의 문자열 전송
         msgwebsocket.send(  JSON.stringify(jsonmsg) );
     }
-
 });
 
 
