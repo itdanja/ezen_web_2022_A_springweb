@@ -7,6 +7,7 @@ import ezenweb.domain.message.MessageRepository;
 import ezenweb.dto.LoginDto;
 import ezenweb.dto.MemberDto;
 import ezenweb.dto.OauthDto;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -374,6 +375,43 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         int mno = memberRepository.findBymid(mid).get().getMno();
         count = messageRepository.getisread( mno );
         return  count;
+    }
+
+    // 1. 본인(로그인) 이 보낸 메시지 리스트
+    public JSONArray getfrommsglist(){
+        String mid = getloginmid();
+        if( mid == null )return null;
+        List<MessageEntity> list =
+        memberRepository.findBymid( mid ).get().getFromentitylist();
+        // JSON형 변환 [  이유 : JS 사용할려고 ]
+        JSONArray jsonArray = new JSONArray();
+        for( MessageEntity msg : list ){
+            JSONObject object = new JSONObject();
+            object.put("msgno" , msg.getMsgno() );
+            object.put("msg" , msg.getMsgno() );
+            object.put("to" , msg.getToentity().getMid() );
+            object.put("date" , msg.getCreatedate() );
+            jsonArray.put( object );
+        }
+        return jsonArray;
+    }
+    // 2. 본인(로그인) 이 받은 메시지 리스트
+    public JSONArray gettomsglist(){
+        String mid = getloginmid();
+        if( mid == null )return null;
+        List<MessageEntity> list =
+                memberRepository.findBymid( mid ).get().getToentitylist();
+        // JSON형 변환 [  이유 : JS 사용할려고 ]
+        JSONArray jsonArray = new JSONArray();
+        for( MessageEntity msg : list ){
+            JSONObject object = new JSONObject();
+            object.put("msgno" , msg.getMsgno() );
+            object.put("msg" , msg.getMsgno() );
+            object.put("from" , msg.getToentity().getMid() );
+            object.put("date" , msg.getCreatedate() );
+            jsonArray.put( object );
+        }
+        return jsonArray;
     }
     // ------------------------------------------------------------------------
 

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller // 템플릿 영역
 @RequestMapping("/member")
 public class MemberController {
@@ -141,6 +143,32 @@ public class MemberController {
     public Integer getisread(){
         return memberService.getisread();
     }
+
+    @GetMapping("/message")
+    public String message( ){ return  "member/message"; }
+
+    @GetMapping("/getfrommsglist")
+    public void getfrommsglist( HttpServletResponse response ){
+        try{
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print( memberService.getfrommsglist() );
+        }catch( Exception e){
+            System.out.println(e);
+        }
+    }
+
+    @GetMapping("/gettomsglist")
+    public void gettomsglist( HttpServletResponse response ){
+        try{
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print( memberService.gettomsglist() );
+        }catch( Exception e){
+            System.out.println(e);
+        }
+    }
+
 
 }
 
