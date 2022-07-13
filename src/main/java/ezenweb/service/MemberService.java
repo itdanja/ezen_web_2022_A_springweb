@@ -388,9 +388,10 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         for( MessageEntity msg : list ){
             JSONObject object = new JSONObject();
             object.put("msgno" , msg.getMsgno() );
-            object.put("msg" , msg.getMsgno() );
+            object.put("msg" , msg.getMsg() );
             object.put("to" , msg.getToentity().getMid() );
             object.put("date" , msg.getCreatedate() );
+            object.put("isread" , msg.isIsread() );
             jsonArray.put( object );
         }  return jsonArray;
     }
@@ -403,9 +404,10 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         for( MessageEntity msg : list ){
             JSONObject object = new JSONObject();
             object.put("msgno" , msg.getMsgno() );
-            object.put("msg" , msg.getMsgno() );
+            object.put("msg" , msg.getMsg() );
             object.put("from" , msg.getToentity().getMid() );
             object.put("date" , msg.getCreatedate() );
+            object.put("isread" , msg.isIsread() );
             jsonArray.put( object );
         } return jsonArray;
     }

@@ -8,7 +8,26 @@
 
     <div th:replace="header.html :: header"></div>
 
+    <div class="container">
 
+        <div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#tomsgbox" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">받은메시지</button>
+                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#frommsgbox" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">보낸메시지</button>
+            </div>
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="tomsgbox" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <!-- 받은메시지 -->
+                    <button> 선택삭제 </button>
+                    <table class="table table-bordered" id="tomsgtable"> </table>
+                </div>
+                <div class="tab-pane fade" id="frommsgbox" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <!-- 보낸메시지 -->
+                    <table class="table table-bordered" id="frommsgtable"> </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/js/member/message.js"></script>
 
 </body>

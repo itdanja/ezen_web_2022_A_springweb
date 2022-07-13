@@ -163,7 +163,7 @@ public class MemberController {
     }
     @PutMapping("/isread")          // 4. 읽음 처리
     @ResponseBody
-    public boolean isread(@RequestParam("msgno") int msgno ){
+    public boolean isread( @RequestParam("msgno") int msgno ){
         return memberService.isread( msgno);
     }
 
