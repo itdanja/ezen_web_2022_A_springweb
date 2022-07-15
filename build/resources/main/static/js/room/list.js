@@ -159,16 +159,34 @@ function getroom( rno ) {
                     });
 }
 
+////////////// 검색 관련 메소드 들  ///////////////////////////
 
+// 1.  거래방식 버튼을 클릭했을때
+function changetrans( value ){
+    //$("tag명[name='이름']"); // 여러개의 tag 속성 name의 객체를 배열  가져오기
+    let transbtnlist = $("button[name='transbtn']");
 
+    for( let i = 0 ; i<transbtnlist.length ; i++ ){
+        transbtnlist[i].classList.remove('btn-warning');
+        transbtnlist[i].classList.remove('btn-secondary');
+        if( i == value ){ // 선택된 버튼의 class 교체 [ 추가/삭제 ]
+            // transbtnlist[i].classList; //  해당 tag의 모든 class명 호출
+                // .add( 'class명' , 'class명'); // 추가
+                // .remove( 'class명' , 'class명'); // 삭제
+            transbtnlist[i].classList.add('btn-warning');
+        }else{ // 선택 안된 버튼의 class 교체  [ 추가/삭제 ]
+            transbtnlist[i].classList.add('btn-secondary');
+        }
+    }
 
-
-
-
-
-
-
-
-
+}
+// 2.  가격변동 변화가 있을때
+function changeprice(){
+    alert("가격 변동");
+}
+// 3. 초기화 버튼을 눌렀을때
+function searchreset(){
+    alert("검색 옵션 초기화");
+}
 
 

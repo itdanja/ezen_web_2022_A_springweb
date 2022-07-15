@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+
+    <link rel="stylesheet" href="/css/list.css">
+
+
 <body>
 
     <div th:replace="header.html :: header"></div>
@@ -11,10 +12,29 @@
     <div class="row">
         <div class="col-md-10">
             <div id="map" style="width:100%;height:1000px;"></div>   <!-- 지도 -->
+            <div class="searchbox">
+                <div class="my-3">
+                    <span>  거래방식 </span>
+                    <div class="input-group">
+                        <button name="transbtn" onclick="changetrans(0)" class="form-control mx-1 btn-warning"> 전체 </button>
+                        <button name="transbtn" onclick="changetrans(1)" class="form-control mx-1 btn-secondary" > 매매 </button>
+                        <button name="transbtn" onclick="changetrans(2)" class="form-control mx-1 btn-secondary"> 전세 </button>
+                        <button name="transbtn" onclick="changetrans(3)" class="form-control mx-1 btn-secondary"> 월세 </button>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <span> 가격 </span>
+                    <span> 0원 ~ 전체</span>
+                    <input onclick="changeprice()" type="range" class="form-range">
+                    <input onclick="changeprice()" type="range" class="form-range">
+                </div>
+                <div class="my-3">
+                    <button onclick="searchreset()" class="form-control mx-1 btn-warning"> 초기화 </button>
+                </div>
+            </div>
         </div>
         <div class="col-md-2" id="sidebar">
             <!--사이드바 표시 구역 -->
-
         </div>
     </div>
 

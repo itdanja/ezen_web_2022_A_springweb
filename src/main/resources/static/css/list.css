@@ -1,0 +1,12 @@
+
+
+.searchbox{
+    position:fixed; /* 화면내에서 위치고정 */
+    top: 20%;       /* 위에서 부터 50% 이동 */
+    left: 1%;      /* 왼쪽에서 부터 50% 이동 */
+    width: 350px;
+    background-color: rgba( 255 , 255 , 255 , 0.8 );
+    z-index : 100; /*다른  tag 와 겹쳤을때의 우선순위*/
+    border-radius: 10px;
+    padding:20px;
+}
