@@ -24,9 +24,9 @@
                 </div>
                 <div class="my-3">
                     <span> 가격 </span>
-                    <span> 0원 ~ 전체</span>
-                    <input onclick="changeprice()" type="range" class="form-range">
-                    <input onclick="changeprice()" type="range" class="form-range">
+                    <span id="pricebox"> 0원 ~ 전체</span>
+                    <input name="pricebtn" onclick="changeprice()" step="10" min="0" max="100000" type="range" class="form-range">
+                    <input name="pricebtn"onclick="changeprice()"  step="10" min="0" max="100000" type="range" class="form-range">
                 </div>
                 <div class="my-3">
                     <button onclick="searchreset()" class="form-control mx-1 btn-warning"> 초기화 </button>

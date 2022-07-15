@@ -150,7 +150,6 @@ public class RoomService {
         room_list   // 메소드명
         ( Map<String,String> Location ) // 인수
      {
-
         List<  Map<String , String >  > Maplist = new ArrayList<>();
 
         // 현재 보고 있는 지도 범위
@@ -159,7 +158,20 @@ public class RoomService {
              double ha = Double.parseDouble(   Location.get("ha")    );
              double oa = Double.parseDouble(   Location.get("oa")    );
 
-        // 1.모든 엔티티 꺼내오기 ~~~~
+             int trans = Integer.parseInt(   Location.get("trans")    );
+             int minprice =  Integer.parseInt(   Location.get("minprice")    );
+             int maxprice =  Integer.parseInt(   Location.get("maxprice")    );
+
+         System.out.println( qa );
+         System.out.println( pa );
+         System.out.println( ha );
+         System.out.println( oa );
+         System.out.println( trans );
+         System.out.println( minprice );
+         System.out.println( maxprice );
+
+
+         // 1.모든 엔티티 꺼내오기 ~~~~
         List<RoomEntity> roomEntityList = roomRepository.findAll();
         // 2. 엔티티 -> map -> 리스트 add
         for( RoomEntity entity : roomEntityList  ){ // 리스트에서 엔티티 하나씩 꺼내오기
