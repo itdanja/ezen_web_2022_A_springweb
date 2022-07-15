@@ -17,8 +17,8 @@ public class RoomDto {
     private String rtitle;                      // 방 타이틀
     private String rlat;                                 // 위도
     private String rlon;                                 // 경도
-    private String rtrans;                              // 거래방식[전세/월세/매매]
-    private String rprice;//                           가격
+    private int rtrans;                              // 거래방식[전세/월세/매매]
+    private int rprice;//                           가격
     private String rarea;//                            면적
     private String rmanagementfee;//          관리비
     private String rstructure;//                     구조

@@ -13,6 +13,13 @@
             <!-- Dto로 자동주입 할경우에는 input name 과 dto 필드명 동일하게 -->
             이름 : <input type="text" name="rtitle">
             사진 : <input type="file" multiple="multiple" name="rimg">
+            거래방식 :
+                <select name="rtrans">
+                    <option value="1">매매</option>
+                    <option value="2">전세</option>
+                    <option value="3">월세</option>
+                </select>
+            가격(만원) : <input type="text" name="rprice">
             x : <input type="input" name="rlon" id="x">
             y : <input type="input" name="rlat" id="y">
             지역 :

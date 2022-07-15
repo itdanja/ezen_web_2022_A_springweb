@@ -77,9 +77,9 @@ public class RoomService {
                 // 2. 경로 설정
                 //        \:제어문자
                     // 1. 프로젝트내 이미지 저장 [ 프로젝트내 저장할경우 프로젝트를 다시 빌드 -> 서버 ]
-//                String dir  = "C:\\Users\\505-t\\Desktop\\springweb\\ezen_web_2022_A_springweb\\src\\main\\resources\\static\\upload\\";
+                String dir  = "C:\\Users\\505-t\\Desktop\\ezen_web_2022_A_springweb\\src\\main\\resources\\static\\upload\\";
                     // 2. 서버에 이미지 저장 [ 다시 빌드X = 스프링부트는 내장서버이기때문에 = 서버 재시작시 초기화 ]
-                String dir = "C:\\Users\\505-t\\Desktop\\ezen_web_2022_A_springweb\\build\\resources\\main\\static\\upload\\";
+//                String dir = "C:\\Users\\505-t\\Desktop\\ezen_web_2022_A_springweb\\build\\resources\\main\\static\\upload\\";
 
                 String filepath = dir+uuidfile;
 
@@ -162,17 +162,11 @@ public class RoomService {
              int minprice =  Integer.parseInt(   Location.get("minprice")    );
              int maxprice =  Integer.parseInt(   Location.get("maxprice")    );
 
-         System.out.println( qa );
-         System.out.println( pa );
-         System.out.println( ha );
-         System.out.println( oa );
-         System.out.println( trans );
-         System.out.println( minprice );
-         System.out.println( maxprice );
-
-
          // 1.모든 엔티티 꺼내오기 ~~~~
-        List<RoomEntity> roomEntityList = roomRepository.findAll();
+        List<RoomEntity> roomEntityList = null;
+        if( trans == 0 ){  roomEntityList = roomRepository.search(  minprice , maxprice); } // 전체검색
+        else  {  roomEntityList = roomRepository.search( trans , minprice , maxprice ); }
+
         // 2. 엔티티 -> map -> 리스트 add
         for( RoomEntity entity : roomEntityList  ){ // 리스트에서 엔티티 하나씩 꺼내오기
 
